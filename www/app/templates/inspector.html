@@ -1,0 +1,12 @@
+<div style="height: 100%;" folder-drop folderdrop-events="folderDropCfg">
+  <div class="fs-layer-header">
+    <div style="float:left;" class="col-xs-10">
+      <span ng-repeat="dir in fs_path" class="no-highlight">
+        <span ng-if="$index != 0">/</span>
+        <span>{{dir.name}}</span>
+      </span>
+    </div>
+  </div>
+
+  <spinal-inspect style="height: calc(100% - 35px);    display: block;"></spinal-inspect>
+</div>
