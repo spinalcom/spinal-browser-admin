@@ -47,5 +47,16 @@ angular.module('app.spinalcom')
     service.share_model = function (data, filename, flag, target_username) {
       return spinalCore.share_model(service.conn, data, filename, flag, target_username);
     };
+    service.load_root = function () {
+      var deferred = $q.defer();
+
+      service.conn.load_or_make_dir('/', (model, err) => {
+        if (err)
+          deferred.reject();
+        else
+          deferred.resolve(model);
+      });
+      return deferred.promise;
+    };
     return service;
   }]);

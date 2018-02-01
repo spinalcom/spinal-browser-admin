@@ -29,7 +29,7 @@ angular.module('app.spinalcom')
               let user = authService.get_user();
               // ngSpinalCore.connect("http://" + config.spinalhub_user + ":" + config.spinalhub_pass +
               //   "@" + config.spinalhub_url + ":" + config.spinalhub_port + '/')
-              ngSpinalCore.load("/").then((m) => {
+              ngSpinalCore.load_root().then((m) => {
                 // ngSpinalCore.load("/__users__/" + user.username).then((m) => {
                 factory.model = m;
                 return ngSpinalCore.load("/etc/users");
