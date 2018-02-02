@@ -4,7 +4,6 @@ angular.module('app.spinalcom')
       let factory = {};
       factory.model = 0;
       factory.users = 0;
-      let _end_ = false;
       let wait_init = [];
 
       function reject(params) {
@@ -27,28 +26,20 @@ angular.module('app.spinalcom')
             wait_init.push(deferred);
             if (wait_init.length === 1) {
               let user = authService.get_user();
-              // ngSpinalCore.connect("http://" + config.spinalhub_user + ":" + config.spinalhub_pass +
-              //   "@" + config.spinalhub_url + ":" + config.spinalhub_port + '/')
               ngSpinalCore.load_root().then((m) => {
-                // ngSpinalCore.load("/__users__/" + user.username).then((m) => {
                 factory.model = m;
                 return ngSpinalCore.load("/etc/users");
-                // deferred.resolve(m);
               }, () => {
                 let msg = "not able to load : /";
                 console.error(msg);
-                // deferred.reject(msg);
                 reject(msg);
               }).then((u) => {
                 factory.users = u;
-                _end_ = false;
-                // deferred.resolve(factory.model);
                 resolve(factory.model);
               }, () => {
                 let msg = "not able to load : " + "/etc/users";
                 console.error(msg);
                 reject(msg);
-                // deferred.reject(msg);
               });
             }
           } else
@@ -58,7 +49,6 @@ angular.module('app.spinalcom')
           let msg = "not able to load : /";
           console.error(msg);
           reject(msg);
-          // deferred.reject(msg);
         });
       };
       return factory;
