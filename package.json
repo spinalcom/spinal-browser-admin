@@ -33,7 +33,7 @@
     "exorcist": "^1.0.0",
     "spinal-core-hub": "git+https://github.com/spinalcom/spinal-core-hub.git#3.0.0",
     "spinal-core-connectorjs": "git+https://github.com/spinalcom/spinal-core-connectorjs.git#2.3.0",
-    "spinal-lib-admin-env": "git+https://github.com/spinalcom/spinal-lib-admin-env.git"
+    "spinal-lib-admin-env": "git+https://github.com/spinalcom/spinal-lib-admin-env.git#develop"
   },
   "scripts": {
     "bowerinstall": "bower install --allow-root",
