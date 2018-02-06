@@ -58,9 +58,11 @@ angular.module('app.spinalcom')
       this.load_dir = (f) => {
         let deferred = $q.defer();
         f.load((m) => {
-          m.bind(() => {
-            this.emit_subcriber("SPINAL_FS_ONCHANGE");
-          }, false);
+          if (m) {
+            m.bind(() => {
+              this.emit_subcriber("SPINAL_FS_ONCHANGE");
+            }, false);
+          }
           deferred.resolve(m);
         }, () => {
           deferred.reject();
