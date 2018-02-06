@@ -1,10 +1,10 @@
-# spinalDrive
+# spinal-browser-admin
 
 ## Dependencies
 
 ### Pull SpinalHub:v3.0.0 doker image
 ```
-$ docker pull spinalhub:v3.0.0
+$ docker pull spinalcom/spinalhub:v3.0.0
 ```
 ### Install [pm2](https://github.com/Unitech/pm2) globally
 ```
@@ -23,10 +23,9 @@ $ npm init
 ### Install the package locally
 
 This will install the package
- - [spinal-browser-drive](https://github.com/spinalcom/spinal-browser-drive)
-   - [spinal-browser-admin](https://github.com/spinalcom/spinal-browser-admin)
-     - [spinal-core-hub#3.0.0](https://github.com/spinalcom/spinal-core-hub)
-     - [spinal-core-connectorjs#2.3.0](https://github.com/spinalcom/spinal-core-connectorjs)
+  - [spinal-browser-admin](https://github.com/spinalcom/spinal-browser-admin)
+    - [spinal-core-hub#3.0.0](https://github.com/spinalcom/spinal-core-hub)
+    - [spinal-core-connectorjs#2.3.0](https://github.com/spinalcom/spinal-core-connectorjs)
 
 
 ```
@@ -66,7 +65,7 @@ $ pm2 start launch.config.js
 
 The drive is a browser application. To use it you need to access it via a browser (you may change the host/port corresponding to your `.config.json` file):
 
-[`http://127.0.0.1:7777/html/drive/index.html`](http://127.0.0.1:7777/html/drive/index.html)
+[`http://127.0.0.1:7777/html/admin/index.html`](http://127.0.0.1:7777/html/admin/index.html)
 
 The 3 basic account are :
 
