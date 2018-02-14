@@ -28,7 +28,7 @@ angular.module('app.spinalcom')
 
       factory.login = (username, password) => {
         let deferred = $q.defer();
-        let url = "/get_user_id";
+        let url = "/get_admin_id";
         $http.get(url + "?u=" + username + "&p=" + password)
           .then(function (data) {
             var u = parseInt(data.data);
