@@ -102,4 +102,4 @@ angular.module('app.directives')
         }
       };
     }];
-  }])
+  }]);
