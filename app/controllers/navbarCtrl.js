@@ -30,18 +30,16 @@ angular.module('app.controllers')
             .title("Do you want to modify your password ?")
             .targetEvent(event);
           $mdDialog.show(my_prompt).then(function (result) {
-            console.log("OK");
             $mdDialog.show({
               ariaLabel: 'changePasswordModal',
               template: $templateCache.get("changePasswordModal.html"),
               parent: angular.element(document.body),
               clickOutsideToClose: true,
               fullscreen: true,
-              controller: ["$scope", "authService", "$mdToast", "$q", changePasswordModelCtrl],
+              controller: ["$scope", "authService", "$mdToast", "$q", "$mdDialog", changePasswordModelCtrl],
             });
           }, function () {});
         });
-        console.log("modifyPassword");
       };
 
 
@@ -135,7 +133,7 @@ angular.module('app.controllers')
     }
   ]);
 
-var changePasswordModelCtrl = function ($scope, authService, $mdToast, $q) {
+var changePasswordModelCtrl = function ($scope, authService, $mdToast, $q, $mdDialog) {
   $scope.passwordInputType = 'password';
   $scope.showPassword = function () {
     $scope.passwordInputType = 'text';
@@ -147,6 +145,9 @@ var changePasswordModelCtrl = function ($scope, authService, $mdToast, $q) {
     currentPassword: "",
     password: "",
     confirm_password: ""
+  };
+  $scope.cancel = function () {
+    $mdDialog.cancel();
   };
   $scope.onError = function (err) {
     $mdToast.showSimple("Error : " + err);
@@ -183,6 +184,7 @@ var changePasswordModelCtrl = function ($scope, authService, $mdToast, $q) {
             .then(function () {
               authService.save_user(user.username, change_password.password);
               $mdToast.showSimple("Password has been successfully modified.");
+              $mdDialog.hide();
             }, $scope.onError);
         }, $scope.onError);
       return;
