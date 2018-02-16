@@ -13,6 +13,25 @@
   <div ng-app="SpinalApp" style="height: 100%;">
     <navbar></navbar>
     <ng-view></ng-view>
+    <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" ng-cloak>
+      <div ng-controller="RightMenuCtrl">
+        <md-toolbar class="md-theme-light">
+          <section layout="row" layout-sm="row" layout-align="center center" layout-wrap>
+            <div class="md-toolbar-tools" style="width: 80%;"> {{username}}</div>
+            <md-button class="md-fab" aria-label="btn.label" style="height: 40px; width: 40px;" ng-click="close()">
+              <ng-md-icon icon="menu" style="fill:black; height: 24px;" class=""></ng-md-icon>
+            </md-button>
+          </section>
+        </md-toolbar>
+        <md-content layout-padding>
+          <md-list ng-cloak>
+            <md-list-item ng-repeat="menu in menuList" ng-click="menu.action($event)">
+              <p> {{ menu.name }} </p>
+            </md-list-item>
+            <md-divider></md-divider>
+        </md-content>
+      </div>
+    </md-sidenav>
   </div>
 
   <script src="../lib/spinalcore.browser.js"></script>

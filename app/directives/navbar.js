@@ -1,3 +1,21 @@
+compareTo.$inject = [];
+
+function compareTo() {
+  return {
+    require: "ngModel",
+    scope: {
+      compareTolValue: "=compareTo"
+    },
+    link: function (scope, element, attributes, ngModel) {
+      ngModel.$validators.compareTo = function (modelValue) {
+        return modelValue == scope.compareTolValue;
+      };
+      scope.$watch("compareTolValue", function () {
+        ngModel.$validate();
+      });
+    }
+  };
+}
 angular.module('app.directives')
   .directive("navbar", [
     function () {
@@ -25,8 +43,6 @@ angular.module('app.directives')
               };
             };
             goldenLayoutService.watch_pannel((pannels) => {
-              console.log("in watch_pannel :");
-              console.log(pannels);
               $timeout(() => {
                 for (var i = 0; i < pannels.length; i++) {
                   let layout = pannels[i];
@@ -56,4 +72,34 @@ angular.module('app.directives')
         });
       });
     };
-  }]);
+  }])
+  .directive('compareTo', compareTo)
+  .provider('$copyToClipboard', [function () {
+    this.$get = ['$q', '$window', function ($q, $window) {
+      var body = angular.element($window.document.body);
+      var textarea = angular.element('<textarea/>');
+      textarea.css({
+        position: 'fixed',
+        opacity: '0'
+      });
+      return {
+        copy: function (stringToCopy) {
+          var deferred = $q.defer();
+          deferred.notify("copying the text to clipboard");
+          textarea.val(stringToCopy);
+          body.append(textarea);
+          textarea[0].select();
+          try {
+            var successful = $window.document.execCommand('copy');
+            if (!successful) throw successful;
+            deferred.resolve(successful);
+          } catch (err) {
+            deferred.reject(err);
+          } finally {
+            textarea.remove();
+          }
+          return deferred.promise;
+        }
+      };
+    }];
+  }])

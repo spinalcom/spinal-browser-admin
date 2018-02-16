@@ -11,6 +11,6 @@
       <a ng-click="logout()">Disconnect</a>
     </li>
   </ul>
-  <ng-md-icon ng-if="connected" class="navbar-text navbar-right" icon="person" size="42px" style="margin: 0;margin-top: 3px;"></ng-md-icon>
+  <ng-md-icon ng-if="connected" class="navbar-text navbar-right" ng-click="clickUser()" icon="person" size="42px" style="margin: 0;margin-top: 3px;"></ng-md-icon>
   <div ng-if="connected" class="navbar-text navbar-right">{{username}}</div>
 </div>

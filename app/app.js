@@ -58,6 +58,9 @@ angular.module('SpinalApp', ['ngAnimate', 'ngMaterial', 'app.directives', 'app.r
     }, {
       uri: 'app/templates/FileExplorer.html',
       name: 'FileExplorer.html'
+    }, {
+      uri: 'app/templates/changePasswordModal.html',
+      name: 'changePasswordModal.html'
     }];
     for (var i = 0; i < toload.length; i++) {
       load_template(toload[i].uri, toload[i].name);
