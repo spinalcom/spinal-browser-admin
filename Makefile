@@ -23,11 +23,11 @@ SRC= app/app.js \
 
 OUT= $(OUTDIR)/js/app.compile.min.js
 
-LIBSRC= bower_components/angular/angular.js \
-  bower_components/angular-aria/angular-aria.js \
-  bower_components/angular-animate/angular-animate.js \
-  bower_components/angular-material/angular-material.js \
-  bower_components/angular-route/angular-route.js \
+LIBSRC= bower_components/angular/angular.min.js \
+  bower_components/angular-aria/angular-aria.min.js \
+  bower_components/angular-animate/angular-animate.min.js \
+  bower_components/angular-material/angular-material.min.js \
+  bower_components/angular-route/angular-route.min.js \
   bower_components/jquery/dist/jquery.min.js \
   bower_components/bootstrap/dist/js/bootstrap.min.js \
   bower_components/golden-layout/dist/goldenlayout.min.js \
@@ -69,10 +69,10 @@ link: create_outdir
 # 	cd .. && ln -s spinalhome/www spinaldrive
 
 compile: create_outdir
-	babel $(SRC) -o $(OUT) --presets es2015 --presets minify -s
+	@npm run compile -- $(SRC) -o $(OUT)
 
 lib: create_outdir
-	babel $(LIBSRC) -o $(LIBOUT) --presets es2015 --presets minify -s
+	cat $(LIBSRC) > $(LIBOUT)
 
 css: create_outdir
 	cat $(CSS) | csso -o $(CSSOUT) --map file

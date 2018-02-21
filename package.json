@@ -38,7 +38,8 @@
   "scripts": {
     "bowerinstall": "bower install --allow-root",
     "postinstall": "npm run spinal-register",
-    "spinal-register": "spinal-register"
+    "spinal-register": "spinal-register",
+    "compile": "node compile_js.js"
   },
   "devDependencies": {
     "csso": "^3.4.0"

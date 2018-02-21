@@ -1,2 +1,9 @@
 bower_components
 test.sh
+node_modules
+.browser_organs
+.config_env
+.config.json
+.apps.json
+launch.config.js
+nerve-center

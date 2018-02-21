@@ -84,7 +84,7 @@ function getConfig() {
 function getOwnPlugins() {
   if (fs.existsSync(package_path) === true) {
     var reg = /spinal-env-[-_\w]*/;
-    var res = {}
+    var res = {};
     var _package = JSON.parse(fs.readFileSync(package_path, 'utf8'));
     var dependencies = _package.dependencies;
     for (var key in dependencies) {
@@ -136,10 +136,18 @@ function compile_lib(config) {
   var output = fs.createWriteStream(libPath);
 
   b.transform("babelify", {
-    presets: ["es2015"]
-  });
-  b.transform("windowify");
-  b.transform("uglifyify");
+      global: true,
+      presets: ["es2015"],
+    })
+    .transform("windowify", {
+      global: true,
+    })
+    .transform("uglifyify", {
+      global: true,
+      mangle: {
+        keep_fnames: true
+      }
+    });
   b.bundle()
     .pipe(exorcist(libPath + '.map'))
     .pipe(output);
