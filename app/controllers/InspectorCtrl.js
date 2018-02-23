@@ -24,7 +24,6 @@ angular.module('app.FileExplorer')
       };
       let test = 0;
       let menu = (d) => {
-        // console.log(d);
         let apps = spinalDrive_Env.get_applications('Inspector', d);
         let res = [];
         let create_action_callback = (app) => {
@@ -315,9 +314,12 @@ angular.module('app.FileExplorer')
             draw();
           }
         };
-        let interval_resize = $interval(check_redraw, 600);
+
+        let interval_resize = setInterval(check_redraw, 600);
+        // let interval_resize = $interval(check_redraw, 600);
         $scope.$on("$destroy", function () {        
-          $interval.cancel(interval_resize);
+          // $interval.cancel(interval_resize);
+          clearInterval(interval_resize);
           interval_resize = undefined;
         });
       });
@@ -514,7 +516,7 @@ angular.module('app.FileExplorer')
               }
               if (found == false) {
                 let res = {};
-                pushToJson(m[i], res, n, n.depth + 1, n.depth + 1);
+                pushToJson(model_child, res, n, n.depth + 1, n.depth + 1);
                 res.data.used = true;
                 children.push(res);
               }
@@ -548,7 +550,9 @@ angular.module('app.FileExplorer')
         }
       };
 
-      let pushToJson = (m, n, parent, max_depth = 1, depth = 0, name = m.constructor.name) => {
+      let pushToJson = (m, n, parent, max_depth = 1, depth = 0, name = null) => {
+        if (!m) return;
+        if (!name) name = m.constructor.name;
         n.parent = parent;
         n.depth = depth;
         n.data = {};
@@ -661,19 +665,10 @@ angular.module('app.FileExplorer')
             toJson(m[m._attribute_names[i]], res, max_depth, depth, m._attribute_names[i]);
             n.children.push(res);
           }
-
-
         }
       };
 
-
-
-
-
-
       $scope.new_tree = (model) => {
-        console.log("new tree");
-        console.log(model);
         if (!model) return;
         if (textGrp)
           textGrp.remove();
@@ -688,7 +683,6 @@ angular.module('app.FileExplorer')
           centerNode(rootnode);
         }
       };
-
 
       $scope.folderDropCfg = {
         "drop": (event) => {

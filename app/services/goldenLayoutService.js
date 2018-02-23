@@ -88,8 +88,6 @@ angular.module('app.services')
       factory.pannels_watchers = [];
       factory.registerPannel = (pannel) => {
         factory.pannels.push(pannel);
-        console.log("registerPannel");
-        console.log(factory.pannels);
         for (var i = 0; i < factory.pannels_watchers.length; i++) {
           factory.pannels_watchers[i](factory.pannels);
         }

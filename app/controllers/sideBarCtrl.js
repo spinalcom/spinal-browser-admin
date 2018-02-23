@@ -94,41 +94,6 @@ angular.module('app.sidebar', ['jsTree.directive', 'app.services', 'app.spinalco
           };
         }
         return res;
-        // return {
-        //   "Open": {
-        //     "label": "Open",
-        //     icon: 'fa fa-window-maximize text-success',
-        //     "action": function (obj) {
-        //       console.log(this);
-        //       spinalFileSystem.openFolder($scope.all_dir, node);
-        //     }
-        //   },
-        //   "Open in new Layer": {
-        //     "label": "Open in new Layer",
-        //     separator_after: true,
-        //     icon: 'fa fa-window-restore text-success',
-        //     "action": function (obj) {
-        //       spinalFileSystem.openFolderInNewLayer($scope.all_dir, node);
-        //     }
-        //   },
-
-        //   "New Folder": {
-        //     "label": "New Folder",
-        //     icon: 'fa fa-folder text-warning',
-        //     "action": function (obj) {
-        //       $mdDialog.show(newFolder_prompt).then(function (result) {
-        //         spinalFileSystem.newFolder($scope.all_dir, node, result);
-        //       }, function () {});
-        //     }
-        //   },
-        //   "Delete Folder": {
-        //     "label": "Delete Folder",
-        //     icon: 'fa fa-trash text-danger',
-        //     "action": function (obj) {
-        //       spinalFileSystem.deleteFolder($scope.all_dir, node);
-        //     }
-        //   }
-        // };
       };
 
       $scope.treeCore = {
@@ -146,25 +111,19 @@ angular.module('app.sidebar', ['jsTree.directive', 'app.services', 'app.spinalco
       $scope.$on('$destroy', listener_destructor);
 
       $scope.select_node = (e, data) => {
-        console.log("select_node");
-        console.log(data.node.original.model);
         selected_node = data.node.original;
         spinalFileSystem.select_node($scope.all_dir, data);
       };
       $scope.onChangeNodeTree = (e, data) => {
-        console.log("onChangeNodeTree");
-        console.log(data);
         spinalFileSystem.onChangeNodeTree($scope.all_dir, data);
       };
       $scope.onbdlclick = (event) => {
         var node = $(event.target).closest("li");
-        console.log("onbdlclick : " + node[0].id);
         spinalFileSystem.onbdlclick($scope.all_dir, node[0].id);
       };
 
       spinalFileSystem.init();
       spinalFileSystem.getFolderJson($scope.all_dir).then((res) => {
-        console.log(res);
         $scope.fsdir = res.tree;
         $scope.all_dir = res.all_dir;
       });

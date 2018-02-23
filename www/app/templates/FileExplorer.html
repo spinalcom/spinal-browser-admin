@@ -2,11 +2,9 @@
   <!-- PATH  BAR -->
   <div class="fs-layer-header">
     <div style="float:left;" class="col-xs-10">
-      <span ng-repeat="dir in fs_path" class="no-highlight">
-        <span ng-if="$index != 0"> &gt; </span>
-        <span ng-if="$index != (fs_path.length - 1)" ng-click="fsmoveToParent(dir)">{{dir.name}}</span>
-        <span ng-if="$index == (fs_path.length - 1)" ng-click="fsmoveToParent(dir)" style="color: #8fccff;">{{dir.name}}</span>
-      </span>
+      <ol class="breadcrumb" style="margin-bottom: unset; background-color: unset; padding: 0;">
+        <li class="breadcrumb-item" ng-repeat="dir in fs_path" ng-class="{active : $index === (fs_path.length - 1)}" ng-click="fsmoveToParent(dir)">{{dir.name}}</li>
+      </ol>
     </div>
     <div style="float:left;height:20px;padding-right: 0px;" class="col-xs-2">
       <md-menu md-position-mode="target-right target" style="float: right;margin-left: 5px;">
@@ -33,7 +31,7 @@
           <th md-column style="width: 30%;">Name</th>
           <th md-column>Type</th>
           <th md-column>Owner</th>
-          <th md-column>Version</th>
+          <th md-column>Created at</th>
           <th md-column style="padding: 0;">Last Modified</th>
           <th md-column style="width: 45px;"></th>
         </tr>
@@ -43,7 +41,7 @@
           ng-class="{fsfileselected:file.selected,over:file.over,selectdrop:file.selectdrop}" drag-events="dragCfg" ng-click="selectFile($event,file)"
           ng-dblclick="ondblclick(file)" ng-right-click="onrightclick($index)" drag-drop>
           <td md-cell class="fs-file-cell" style="position: relative;">
-            <ng-md-icon icon="{{getIcon(file.model_type)}}" style="{{getStyle(file)}}" class="md-avatar-icon"></ng-md-icon>
+            <ng-md-icon icon="{{getIcon(file.model_type)}}" ng-attr-style="{{getStyle(file)}}" class="md-avatar-icon"></ng-md-icon>
             <div style="float: left;margin-left: 20px;width: -webkit-fill-available;overflow: hidden;text-overflow: ellipsis;;">
               <span style="white-space: nowrap;">
                 <md-tooltip md-delay="500">{{file.name}}</md-tooltip>{{file.name}}</span>
@@ -53,8 +51,8 @@
           </td>
           <td md-cell>{{file.model_type}}</td>
           <td md-cell>{{file.owner}}</td>
-          <td md-cell>{{file.version}}</td>
-          <td md-cell style="padding: 0;">{{file.last_modified}}</td>
+          <td md-cell>{{getTime(file.created_at)}}</td>
+          <td md-cell style="padding: 0;">{{getTime(file.log[file.log.length -1].date)}}</td>
           <td>
             <md-menu>
               <md-button aria-label="+" class="md-icon-button" ng-attr-id="{{ 'fe-menu-'+uid+'-' + $index }}" ng-click="open_context_menu_file($mdMenu, $event, file);">

@@ -62,8 +62,13 @@ angular.module('app.spinalcom')
             m.bind(() => {
               this.emit_subcriber("SPINAL_FS_ONCHANGE");
             }, false);
+            deferred.resolve(m);
+          } else {
+            console.error("ERROR load_dir");
+            console.log(f);
+            console.log(m);
+            deferred.reject(m);
           }
-          deferred.resolve(m);
         }, () => {
           deferred.reject();
         });
@@ -102,9 +107,6 @@ angular.module('app.spinalcom')
           return this.deferGetFolderJson_rec(prom_arr, all_dir, dir, arr, name, parent, opened);
         }
 
-
-
-
         for (var key in all_dir) {
           let n = all_dir[key];
           if (n.model == dir._server_id && n.text == name && n.parent == parent) {
@@ -130,14 +132,6 @@ angular.module('app.spinalcom')
             current.state.opened = true;
           }
         }
-
-
-
-
-
-
-
-
 
         arr.push(current);
         all_dir[current.id] = current;
@@ -248,7 +242,6 @@ angular.module('app.spinalcom')
       };
 
       this.deleteFolder = (all_dir, node) => {
-        console.log("delete folder " + node.original.text);
         let f = FileSystem._objects[node.original.model];
         if (f) {
           let parent = all_dir[node.original.parent];
@@ -259,6 +252,45 @@ angular.module('app.spinalcom')
                 m_parent.remove_ref(m_parent[i]);
                 break;
               }
+            }
+          }
+        }
+      };
+
+      this.handle_FE_progressBar = (model, item) => {
+        if (model._info.model_type.get() === "Path") {
+          if (model._info.remaining.get() != 0) {
+            let percent = (model._info.to_upload.get() - model._info.remaining.get()) / model._info.to_upload.get();
+            item.upload_pecent = percent * 100;
+          }
+        } else if (model._info.model_type.get() === "BIM Project") {
+          if (model._info.state) {
+            switch (model._info.state.num.get()) {
+              case 0:
+                item.upload_pecent = 10;
+                break;
+              case 1:
+                item.upload_pecent = 18;
+                break;
+              case 2:
+                item.upload_pecent = 36;
+                break;
+              case 3:
+                item.upload_pecent = 54;
+                break;
+              case 4:
+                item.upload_pecent = 72;
+                break;
+              case 5:
+                item.upload_pecent = 90;
+                break;
+              case 6:
+                break;
+              case 8:
+                item.upload_pecent = 100;
+                item.error = true;
+                break;
+              default:
             }
           }
         }
@@ -286,56 +318,24 @@ angular.module('app.spinalcom')
                   name: model.name.get(),
                   model_type: model._info.model_type.get(),
                   _server_id: model._server_id,
-                  // selected: false,
-                  version: "—",
-                  last_modified: "—",
                   owner: scope.user.username
                 };
-                if (model._info.model_type.get() === "Path") {
-                  if (model._info.remaining.get() != 0) {
-                    let percent = (model._info.to_upload.get() - model._info.remaining.get()) / model._info.to_upload.get();
-                    item.upload_pecent = percent * 100;
-                  }
-                } else if (model._info.model_type.get() === "BIM Project") {
-                  if (model._info.state) {
-                    switch (model._info.state.num.get()) {
-                      case 0:
-                        item.upload_pecent = 10;
-                        break;
-                      case 1:
-                        item.upload_pecent = 18;
-                        break;
-                      case 2:
-                        item.upload_pecent = 36;
-                        break;
-                      case 3:
-                        item.upload_pecent = 54;
-                        break;
-                      case 4:
-                        item.upload_pecent = 72;
-                        break;
-                      case 5:
-                        item.upload_pecent = 90;
-                        break;
-                      case 6:
-                        break;
-                      case 8:
-                        item.upload_pecent = 100;
-                        item.error = true;
-                        break;
-                      default:
-
-                    }
-
+                SpinalDrive_App._getOrCreate_log(model).then((logs) => {
+                  if (logs.length === 0) {
+                    let tab = {
+                      date: Date.now(),
+                      name: scope.user.username,
+                      action: "1st visit"
+                    };
+                    SpinalDrive_App._pushLog(logs, tab);
                   }
 
+                  item.created_at = logs[0].date;
+                  item.log = logs;
 
-                  // if (model._info.remaining.get() != 0) {
-                  //   let percent = (model._info.to_upload.get() - model._info.remaining.get()) / model._info.to_upload.get();
-                  //   item.upload_pecent = percent * 100;
-                }
-
-                deferred.resolve(item);
+                  this.handle_FE_progressBar(model, item);
+                  deferred.resolve(item);
+                });
               }
             };
             wait_tmp_serverid_loop(deferred, model);
