@@ -30,7 +30,7 @@
         <tr style="height: 25px;">
           <th md-column style="width: 30%;">Name</th>
           <th md-column>Type</th>
-          <th md-column>Owner</th>
+          <!-- <th md-column>Owner</th> -->
           <th md-column>Created at</th>
           <th md-column style="padding: 0;">Last Modified</th>
           <th md-column style="width: 45px;"></th>
@@ -50,7 +50,7 @@
               md-mode="determinate" value="{{file.upload_pecent}}"></md-progress-linear>
           </td>
           <td md-cell>{{file.model_type}}</td>
-          <td md-cell>{{file.owner}}</td>
+          <!-- <td md-cell>{{file.owner}}</td> -->
           <td md-cell>{{getTime(file.created_at)}}</td>
           <td md-cell style="padding: 0;">{{getTime(file.log[file.log.length -1].date)}}</td>
           <td>
