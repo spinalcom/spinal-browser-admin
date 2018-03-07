@@ -282,9 +282,12 @@ angular.module('app.spinalcom')
                 item.upload_pecent = 72;
                 break;
               case 5:
-                item.upload_pecent = 90;
+                item.upload_pecent = 80;
                 break;
               case 6:
+                item.upload_pecent = 90;
+                break;
+              case 7:
                 break;
               case 8:
                 item.upload_pecent = 100;
