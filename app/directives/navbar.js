@@ -42,10 +42,10 @@ angular.module('app.directives')
                 goldenLayoutService.createChild(layout.cfg);
               };
             };
-            goldenLayoutService.watch_pannel((pannels) => {
+            goldenLayoutService.watch_panel((panels) => {
               $timeout(() => {
-                for (var i = 0; i < pannels.length; i++) {
-                  let layout = pannels[i];
+                for (var i = 0; i < panels.length; i++) {
+                  let layout = panels[i];
                   if (!layout.shown) {
                     layout.shown = true;
                     goldenLayoutService.createDragSource($("#" + layout.id)[0], layout.cfg);
@@ -53,7 +53,7 @@ angular.module('app.directives')
                   }
                 }
               }, 200);
-              scope.layoutInfo = pannels;
+              scope.layoutInfo = panels;
             });
           });
         }

@@ -51,7 +51,7 @@ angular.module('app.services')
               element.html();
               $compile(element.contents())($rootScope);
             } else {
-              element.html("<div class=\"gpannel-content\" ng-controller=\"" + state.controller + "\" ng-cloak>" +
+              element.html("<div class=\"gpanel-content\" ng-controller=\"" + state.controller + "\" ng-cloak>" +
                 $templateCache.get(state.template) + "</div>");
               $compile(element.contents())($rootScope);
             }
@@ -84,34 +84,34 @@ angular.module('app.services')
       };
 
 
-      factory.pannels = [];
-      factory.pannels_watchers = [];
-      factory.registerPannel = (pannel) => {
-        factory.pannels.push(pannel);
-        for (var i = 0; i < factory.pannels_watchers.length; i++) {
-          factory.pannels_watchers[i](factory.pannels);
+      factory.panels = [];
+      factory.panels_watchers = [];
+      factory.registerPanel = (panel) => {
+        factory.panels.push(panel);
+        for (var i = 0; i < factory.panels_watchers.length; i++) {
+          factory.panels_watchers[i](factory.panels);
         }
       };
-      factory.getPannels = () => {
-        return factory.pannels;
+      factory.getPanels = () => {
+        return factory.panels;
       };
-      factory.watch_pannel = (fn) => {
-        if (factory.pannels_watchers.length === 0) {
-          factory.pannels_watchers.push(fn);
-          if (factory.pannels.length != 0) {
-            fn(factory.pannels);
+      factory.watch_panel = (fn) => {
+        if (factory.panels_watchers.length === 0) {
+          factory.panels_watchers.push(fn);
+          if (factory.panels.length != 0) {
+            fn(factory.panels);
           }
           return;
         }
         let found = false;
-        for (var i = 0; i < factory.pannels_watchers.length; i++) {
-          if (factory.pannels_watchers[i] === fn) {
+        for (var i = 0; i < factory.panels_watchers.length; i++) {
+          if (factory.panels_watchers[i] === fn) {
             found = true;
             break;
           }
         }
         if (found === false)
-          factory.pannels_watchers.push(fn);
+          factory.panels_watchers.push(fn);
       };
 
       return factory;

@@ -3,12 +3,12 @@ angular.module('app.services', []);
 angular.module('app.directives', []);
 angular.module('app.controllers', []);
 angular.module('app.spinalcom', ['settings', 'ngMaterial']);
-angular.module('app.spinal-pannel', []);
+angular.module('app.spinal-panel', []);
 
 
 angular.module('SpinalApp', ['ngAnimate', 'ngMaterial', 'app.directives', 'app.route',
     'jsTree.directive', 'app.sidebar', 'app.FileExplorer',
-    'app.services', 'app.controllers', 'ngMdIcons', 'settings', 'app.spinalcom', 'app.spinal-pannel',
+    'app.services', 'app.controllers', 'ngMdIcons', 'settings', 'app.spinalcom', 'app.spinal-panel',
   ])
   .run(['$rootScope', '$location', 'authService', function ($rootScope, $location, authService) {
     let user = authService.get_user();
