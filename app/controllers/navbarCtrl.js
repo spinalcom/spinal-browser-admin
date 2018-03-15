@@ -48,7 +48,7 @@ angular.module('app.controllers')
       //   action: $scope.disconnect
       // },
       $scope.menuList = [{
-        name: "Modify Password",
+        name: "Change Password",
         action: $scope.modifyPassword
       }, {
         name: "Log out",
