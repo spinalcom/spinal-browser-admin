@@ -55,27 +55,50 @@ angular.module('app.spinalcom')
         });
       };
 
+      this.ptrRdy_defer = (ptr, promise, isnew = false) => {
+        if (!ptr.data.value || FileSystem._tmp_objects[ptr.data.value]) {
+          setTimeout(() => {
+            this.ptrRdy_defer(ptr, promise, true);
+          }, 200);
+          return;
+        }
+        if (FileSystem._objects[ptr.data.value]) {
+          promise({
+            model: FileSystem._objects[ptr.data.value],
+            firstTime: isnew
+          });
+        } else {
+          ptr.load((m) => {
+            promise({
+              model: m,
+              firstTime: true
+            });
+          });
+        }
+      };
+
+      this.waitPtrRdyAndLoad = (ptr) => {
+        return new Promise((resolve, reject) => {
+          this.ptrRdy_defer(ptr, resolve);
+        });
+      };
+
       this.load_dir = (f) => {
         let deferred = $q.defer();
-        f.load((m) => {
+        this.waitPtrRdyAndLoad(f._ptr).then((res) => {
+          let m = res.model;
+          let firstTime = res.firstTime;
           if (m) {
-            m.bind(() => {
-              this.emit_subcriber("SPINAL_FS_ONCHANGE");
-            }, false);
+            if (firstTime)
+              m.bind(() => {
+                this.emit_subcriber("SPINAL_FS_ONCHANGE");
+              }, false);
             deferred.resolve(m);
-          } else {
-            console.error("ERROR load_dir");
-            console.log(f);
-            console.log(m);
-            deferred.reject(m);
-          }
-        }, () => {
-          deferred.reject();
+          } else
+            deferred.reject();
         });
         return deferred.promise;
       };
-
-
 
       this.deferGetFolderJson_rec = (prom_arr, all_dir, dir, arr, name, parent, opened) => {
         let deferred = $q.defer();
