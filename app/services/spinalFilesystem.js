@@ -286,7 +286,7 @@ angular.module('app.spinalcom')
             let percent = (model._info.to_upload.get() - model._info.remaining.get()) / model._info.to_upload.get();
             item.upload_pecent = percent * 100;
           }
-        } else if (model._info.model_type.get() === "BIM Project") {
+        } else if (model._info.model_type.get() === "BIM Project" || model._info.model_type.get() === "Digital twin") {
           if (model._info.state) {
             switch (model._info.state.num.get()) {
               case 0:
