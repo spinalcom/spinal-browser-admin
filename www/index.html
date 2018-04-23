@@ -1,31 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" style="background-color: #292929;overflow: hidden;">
+<html lang="en"
+      style="background-color: #292929;overflow: hidden;">
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport"
+        content="initial-scale=1, maximum-scale=1, user-scalable=no" />
   <base href="/html/admin/">
-  <link href="css/css.compile.css" rel="stylesheet" type="text/css" />
+  <link href="css/css.compile.css"
+        rel="stylesheet"
+        type="text/css" />
   <title>Spinal Admin</title>
 </head>
 
 <body>
-  <div ng-app="SpinalApp" style="height: 100%;">
+  <div ng-app="SpinalApp"
+       style="height: 100%;">
     <navbar></navbar>
     <ng-view></ng-view>
-    <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" ng-cloak>
+    <md-sidenav class="md-sidenav-right md-whiteframe-4dp"
+                md-component-id="right"
+                ng-cloak>
       <div ng-controller="RightMenuCtrl">
         <md-toolbar class="md-theme-light">
-          <section layout="row" layout-sm="row" layout-align="center center" layout-wrap>
-            <div class="md-toolbar-tools" style="width: 80%;"> {{username}}</div>
-            <md-button class="md-fab" aria-label="btn.label" style="height: 40px; width: 40px;" ng-click="close()">
-              <ng-md-icon icon="menu" style="fill:black; height: 24px;" class=""></ng-md-icon>
+          <section layout="row"
+                   layout-sm="row"
+                   layout-align="center center"
+                   layout-wrap>
+            <div class="md-toolbar-tools"
+                 style="width: 80%;"> {{username}}</div>
+            <md-button class="md-fab"
+                       aria-label="btn.label"
+                       style="height: 40px; width: 40px;"
+                       ng-click="close()">
+              <ng-md-icon icon="menu"
+                          style="fill:black; height: 24px;"
+                          class=""></ng-md-icon>
             </md-button>
           </section>
         </md-toolbar>
         <md-content layout-padding>
           <md-list ng-cloak>
-            <md-list-item ng-repeat="menu in menuList" ng-click="menu.action($event)">
+            <md-list-item ng-repeat="menu in menuList"
+                          ng-click="menu.action($event)">
               <p> {{ menu.name }} </p>
             </md-list-item>
             <md-divider></md-divider>
@@ -35,8 +52,10 @@
   </div>
 
   <script src="../lib/spinalcore.browser.js"></script>
-  <script type="text/javascript" src="js/lib.compile.min.js"></script>
-  <script type="text/javascript" src="assets/lib/svg-morpheus.js"></script>
+  <script type="text/javascript"
+          src="js/lib.compile.min.js"></script>
+  <script type="text/javascript"
+          src="assets/lib/svg-morpheus.js"></script>
   <script src="js/app.compile.min.js"></script>
   <script src="../lib/spinal-lib-admin-env.js"></script>
 </body>

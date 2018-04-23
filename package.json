@@ -2,9 +2,7 @@
   "name": "spinal-browser-admin",
   "version": "v1.1.6",
   "homepage": "https://github.com/spinalcom/spinal-browser-admin",
-  "authors": [
-    "laurent <htd.laurent@gmail.com>"
-  ],
+  "authors": ["laurent <htd.laurent@gmail.com>"],
   "bin": {
     "create_admin_env": "create_admin_env.js"
   },
@@ -12,13 +10,7 @@
   "main": "index.html",
   "license": "SpinalCore",
   "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
+  "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"],
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -31,9 +23,12 @@
     "bower": "^1.8.2",
     "commander": "^2.13.0",
     "exorcist": "^1.0.0",
-    "spinal-core-hub": "git+https://github.com/spinalcom/spinal-core-hub.git#3.0.0",
-    "spinal-core-connectorjs": "git+https://github.com/spinalcom/spinal-core-connectorjs.git#2.3.0",
-    "spinal-lib-admin-env": "git+https://github.com/spinalcom/spinal-lib-admin-env.git"
+    "spinal-core-hub":
+      "git+https://github.com/spinalcom/spinal-core-hub.git#3.0.0",
+    "spinal-core-connectorjs":
+      "git+https://github.com/spinalcom/spinal-core-connectorjs.git#2.3.0",
+    "spinal-lib-admin-env":
+      "git+https://github.com/spinalcom/spinal-lib-admin-env.git"
   },
   "scripts": {
     "bowerinstall": "bower install --allow-root",
@@ -42,6 +37,8 @@
     "compile": "node compile_js.js"
   },
   "devDependencies": {
-    "csso": "^3.4.0"
+    "csso": "^3.4.0",
+    "node-notifier": "^5.2.1",
+    "watchify": "^3.11.0"
   }
 }

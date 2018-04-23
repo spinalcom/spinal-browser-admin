@@ -1,20 +1,12 @@
 {
   "name": "spinal-browser-drive",
   "homepage": "https://github.com/spinalcom/MBIM-Forge",
-  "authors": [
-    "laurent <htd.laurent@gmail.com>"
-  ],
+  "authors": ["laurent <htd.laurent@gmail.com>"],
   "description": "Utility to manage the SpinalCom FileSystem and more ...",
   "main": "index.html",
   "license": "SpinalCore",
   "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
+  "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"],
   "dependencies": {
     "angular-material-icons": "^0.7.1",
     "angular-material": "^1.1.5",
@@ -28,7 +20,8 @@
     "jquery-ui": "^1.12.1",
     "d3": "^4.12.0",
     "d3-context-menu": "*",
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "spectrum": "^1.8.0"
   },
   "devDependencies": {},
   "resolutions": {

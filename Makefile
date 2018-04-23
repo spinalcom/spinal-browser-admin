@@ -36,7 +36,8 @@ LIBSRC= bower_components/angular/angular.min.js \
   bower_components/angular-material-data-table/dist/md-data-table.min.js \
   bower_components/jquery-ui/jquery-ui.min.js \
   bower_components/d3/d3.min.js \
-  bower_components/d3-context-menu/js/d3-context-menu.js
+  bower_components/d3-context-menu/js/d3-context-menu.js \
+  bower_components/spectrum/spectrum.js
 
 LIBOUT= $(OUTDIR)/js/lib.compile.min.js
 
@@ -49,6 +50,7 @@ CSS= bower_components/angular-material/angular-material.css \
   bower_components/angular-material-data-table/dist/md-data-table.min.css \
   bower_components/bootstrap/dist/css/bootstrap.min.css \
   bower_components/d3-context-menu/css/d3-context-menu.css \
+  bower_components/spectrum/spectrum.css \
   app/css/app.css
 
 CSSOUT= $(OUTDIR)/css/css.compile.css
@@ -70,6 +72,9 @@ link: create_outdir
 
 compile: create_outdir
 	@npm run compile -- $(SRC) -o $(OUT)
+
+watch :
+	@npm run compile -- $(SRC) -o $(OUT) -w
 
 lib: create_outdir
 	cat $(LIBSRC) > $(LIBOUT)
@@ -96,4 +101,4 @@ run:
 clean:
 	rm -rf www bower_components
 
-.PHONY: all init run compile lib link css create_outdir doc 
+.PHONY: all init run compile lib link css create_outdir doc watch

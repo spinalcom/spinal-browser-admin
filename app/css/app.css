@@ -57,10 +57,10 @@ table.md-table td.md-cell {
 
 .selection {
   position: absolute;
-  border: 1px solid #89B;
-  background: #BCE;
-  background-color: #BEC;
-  border-color: #8B9;
+  border: 1px solid #89b;
+  background: #bce;
+  background-color: #bec;
+  border-color: #8b9;
 }
 
 .selectable-node {
@@ -180,7 +180,7 @@ md-progress-linear.md-altTheme-theme.md-warn .md-bar {
 }
 
 .md-chips.md-removable md-chip._md-chip-editing {
-  color: rgba(255, 255, 255, 1.0);
+  color: rgba(255, 255, 255, 1);
 }
 
 .md-chips {
@@ -200,7 +200,7 @@ md-progress-linear.md-altTheme-theme.md-warn .md-bar {
   margin-bottom: 1px;
 }
 
-md-menu-item.md-indent>ng-md-icon {
+md-menu-item.md-indent > ng-md-icon {
   position: absolute;
   padding: 0;
   width: 24px;
@@ -208,8 +208,8 @@ md-menu-item.md-indent>ng-md-icon {
   left: 24px;
 }
 
-md-menu-item.md-indent>md-button,
-md-menu-item.md-indent>.md-button {
+md-menu-item.md-indent > md-button,
+md-menu-item.md-indent > .md-button {
   padding: 0 10px 0 64px;
 }
 
@@ -223,7 +223,7 @@ md-menu-item.compact {
 }
 
 .overlay {
-  background-color: #EEE;
+  background-color: #eee;
 }
 
 .node circle {
@@ -278,15 +278,15 @@ div.inspect-tooltip {
   pointer-events: none;
 }
 
-div.inspect-tooltip>table>tr>td {
+div.inspect-tooltip > table > tr > td {
   padding: 4px 5px;
 }
 
-div.inspect-tooltip>table>tr>td {
+div.inspect-tooltip > table > tr > td {
   text-align: left;
 }
 
-div.inspect-tooltip>table>tr:nth-child(odd) {
+div.inspect-tooltip > table > tr:nth-child(odd) {
   background: #232322;
 }
 
@@ -301,6 +301,6 @@ md-toast.md-error-toast-theme div.md-toast-content {
   background-color: red !important;
 }
 
-.breadcrumb>.active {
+.breadcrumb > .active {
   color: #8fccff;
 }

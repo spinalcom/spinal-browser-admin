@@ -1,16 +1,17 @@
-angular.module('app.directives')
-  .directive('dragDrop', function () {
+window.angular
+  .module("app.directives")
+  .directive("dragDrop", function() {
     return {
       scope: {
-        fileObj: '=fileObj',
-        events: '=dragEvents'
+        fileObj: "=fileObj",
+        events: "=dragEvents"
       },
-      link: function (scope, element) {
+      link: function(scope, element) {
         let events = [];
         element.attr("draggable", "true");
         if (scope.events) {
           let create_callback_event = (key, scope) => {
-            return (event) => {
+            return event => {
               return scope.events[key](event, scope.fileObj);
             };
           };
@@ -25,27 +26,25 @@ angular.module('app.directives')
               element.on(key, obj.fn);
             }
           }
-          scope.$on('$destroy', () => {
+          scope.$on("$destroy", () => {
             for (var i = 0; i < events.length; i++) {
               element.off(events[i].key, events[i].fn);
             }
           });
         }
-
       }
-
     };
   })
-  .directive('folderDrop', function () {
+  .directive("folderDrop", function() {
     return {
       scope: {
-        events: '=folderdropEvents'
+        events: "=folderdropEvents"
       },
-      link: function (scope, element) {
+      link: function(scope, element) {
         let events = [];
         if (scope.events) {
           let create_callback_event = (key, element) => {
-            return (event) => {
+            return event => {
               return scope.events[key](event, element);
             };
           };
@@ -59,14 +58,12 @@ angular.module('app.directives')
               element.on(key, obj.fn);
             }
           }
-          scope.$on('$destroy', () => {
+          scope.$on("$destroy", () => {
             for (var i = 0; i < events.length; i++) {
               element.off(events[i].key, events[i].fn);
             }
           });
         }
-
       }
-
     };
   });
