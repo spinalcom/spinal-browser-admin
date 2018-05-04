@@ -1,5 +1,5 @@
 window.$ = window.jQuery = require("jquery");
-require("angular");
+window.angular = require("angular");
 require("angular-aria");
 require("angular-animate");
 require("angular-material");
