@@ -1,4 +1,8 @@
-window.angular
+var angular = require("angular");
+var GoldenLayout = require("golden-layout");
+var $ = require("jquery");
+
+angular
   .module("app.services")
   .factory("goldenLayoutService", [
     "$q",
@@ -47,30 +51,45 @@ window.angular
           }
         ]
       };
+      function wait_template(element, state, count = 0) {
+        if (count > 50)
+          console.error(
+            "Error: imposible to retrive the template : " + state.template
+          );
+        let template = $templateCache.get(state.template);
+        if (template) {
+          element.html(
+            '<div class="gpanel-content" ng-controller="' +
+              state.controller +
+              '" ng-cloak>' +
+              $templateCache.get(state.template) +
+              "</div>"
+          );
+          $compile(element.contents())($rootScope);
+        } else {
+          setTimeout(() => {
+            wait_template(element, state, ++count);
+          }, 100);
+        }
+      }
+
       let myLayout = 0;
       let factory = {};
       factory.init = () => {
         if (myLayout == 0) {
-          myLayout = new window.GoldenLayout(config, window.$("#g-layout"));
+          myLayout = new GoldenLayout(config, $("#g-layout"));
           myLayout.registerComponent("SpinalHome", function(container, state) {
             var element = container.getElement();
             if (state.template == "") {
               element.html();
               $compile(element.contents())($rootScope);
             } else {
-              element.html(
-                '<div class="gpanel-content" ng-controller="' +
-                  state.controller +
-                  '" ng-cloak>' +
-                  $templateCache.get(state.template) +
-                  "</div>"
-              );
-              $compile(element.contents())($rootScope);
+              wait_template(element, state);
             }
           });
 
           myLayout.init();
-          window.angular.element($window).bind("resize", function() {
+          angular.element($window).bind("resize", function() {
             myLayout.updateSize();
           });
           $rootScope.$emit("GoldenLayout_READY");

@@ -1,4 +1,6 @@
-window.angular.module("app.route").config([
+var angular = require("angular");
+
+angular.module("app.route").config([
   "$routeProvider",
   function($routeProvider) {
     $routeProvider

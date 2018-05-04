@@ -1,15 +1,18 @@
-window.angular.module("app.spinalcom").factory("ngSpinalCore", [
+var angular = require("angular");
+var spinalCore = require("spinal-core-connectorjs");
+
+angular.module("app.spinalcom").factory("ngSpinalCore", [
   "$q",
   function($q) {
     var service = {};
     service.conn = 0;
 
     service.connect = function(option) {
-      service.conn = window.spinalCore.connect(option);
+      service.conn = spinalCore.connect(option);
     };
     service.store = function(model, path) {
       var deferred = $q.defer();
-      window.spinalCore.store(
+      spinalCore.store(
         service.conn,
         model,
         path,
@@ -24,7 +27,7 @@ window.angular.module("app.spinalcom").factory("ngSpinalCore", [
     };
     service.load = function(path) {
       var deferred = $q.defer();
-      window.spinalCore.load(
+      spinalCore.load(
         service.conn,
         path,
         function(model) {
@@ -38,7 +41,7 @@ window.angular.module("app.spinalcom").factory("ngSpinalCore", [
     };
     service.load_type = function(modelName, callback_success, callback_error) {
       // var deferred = $q.defer();
-      window.spinalCore.load_type(
+      spinalCore.load_type(
         service.conn,
         modelName,
         function(model) {
@@ -54,7 +57,7 @@ window.angular.module("app.spinalcom").factory("ngSpinalCore", [
     };
     service.load_right = function(ptr) {
       var deferred = $q.defer();
-      window.spinalCore.load_right(
+      spinalCore.load_right(
         service.conn,
         ptr,
         function(model) {
@@ -67,7 +70,7 @@ window.angular.module("app.spinalcom").factory("ngSpinalCore", [
       return deferred.promise;
     };
     service.share_model = function(data, filename, flag, target_username) {
-      return window.spinalCore.share_model(
+      return spinalCore.share_model(
         service.conn,
         data,
         filename,

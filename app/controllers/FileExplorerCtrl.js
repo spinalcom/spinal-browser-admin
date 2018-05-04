@@ -1,4 +1,7 @@
-window.angular
+var angular = require("angular");
+var $ = require("jquery");
+
+angular
   .module("app.FileExplorer", [
     "jsTree.directive",
     "app.services",
@@ -171,7 +174,7 @@ window.angular
             }
           }
           obj.selected = true;
-          let clone = window.$(
+          let clone = $(
             '<div id="drag-extra" class="fs-drag-item"><ng-md-icon icon="' +
               $scope.getNbSelectedIcon(obj.model_type) +
               '" style="fill: white;height: 24px;" class="md-avatar-icon"></ng-md-icon>' +
@@ -182,8 +185,8 @@ window.angular
           );
           $compile(clone[0])($rootScope);
           clone.appendTo("body");
-          event.dataTransfer.setDragImage(clone[0], 0, 0);
-          event.dataTransfer.setData("text", obj._server_id);
+          event.originalEvent.dataTransfer.setData("text", obj._server_id);
+          event.originalEvent.dataTransfer.setDragImage(clone[0], 0, 0);
           spinalFileSystem.FE_selected_drag = [];
           for (let i = 0; i < $scope.directory.length; i++) {
             if ($scope.directory[i].selected == true) {
@@ -197,10 +200,10 @@ window.angular
           spinalFileSystem.addScopeVisted($scope);
           $rootScope.current_scope_drag = $scope;
           $scope.$apply();
-          return false;
+          return true;
         },
         dragend: () => {
-          window.$("#drag-extra").remove();
+          $("#drag-extra").remove();
           for (let i = 0; i < $scope.directory.length; i++) {
             $scope.directory[i].selectdrop = false;
             $scope.directory[i].over = false;
@@ -238,8 +241,8 @@ window.angular
             $scope.directory[i].over = false;
           }
           if ($scope.enterTarget) {
-            event.dataTransfer.dropEffect = "move";
-            event.dataTransfer.effectAllowed = "move";
+            event.originalEvent.dataTransfer.dropEffect = "move";
+            event.originalEvent.dataTransfer.effectAllowed = "move";
             obj.over = true;
           }
           $scope.dropOnFolder = false;
@@ -452,7 +455,7 @@ window.angular
       $scope.context_menu_file = [];
       $scope.onrightclick = index => {
         setTimeout(() => {
-          window.$("#fe-menu-" + $scope.uid + "-" + index).click();
+          $("#fe-menu-" + $scope.uid + "-" + index).click();
         });
       };
 

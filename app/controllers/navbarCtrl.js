@@ -1,4 +1,6 @@
-window.angular
+var angular = require("angular");
+
+angular
   .module("app.controllers")
   .controller("RightMenuCtrl", [
     "$scope",
@@ -63,7 +65,7 @@ window.angular
                 $mdDialog.show({
                   ariaLabel: "changePasswordModal",
                   template: $templateCache.get("changePasswordModal.html"),
-                  parent: window.angular.element(document.body),
+                  parent: angular.element(document.body),
                   clickOutsideToClose: true,
                   fullscreen: true,
                   controller: [

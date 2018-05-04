@@ -1,4 +1,8 @@
-window.angular.module("app.FileExplorer").controller("InspectorCtrl", [
+var angular = require("angular");
+var d3 = require("d3");
+var d3ContextMenu = require("d3-context-menu");
+
+angular.module("app.FileExplorer").controller("InspectorCtrl", [
   "$scope",
   "$injector",
   "spinalInspectUID",
@@ -68,8 +72,8 @@ window.angular.module("app.FileExplorer").controller("InspectorCtrl", [
       return path;
     };
     let zoom = () => {
-      if (window.d3.event.transform != null) {
-        svgGroup.attr("transform", window.d3.event.transform);
+      if (d3.event.transform != null) {
+        svgGroup.attr("transform", d3.event.transform);
       }
     };
     let calc_dist_depth = (depth, mult) => {
@@ -83,15 +87,15 @@ window.angular.module("app.FileExplorer").controller("InspectorCtrl", [
       res *= mult;
       return res;
     };
-    window.angular.element(document).ready(function() {
+    angular.element(document).ready(function() {
       let uid = spinalInspectUID.get_last_uid();
       let elem = spinalInspectUID.elem[uid];
       viewerWidth = elem.width();
       viewerHeight = elem.height();
       let elem_id = "spinalinspect_" + uid;
-      let element = window.d3.select("#" + elem_id);
-      let tree = window.d3.tree().size([viewerHeight, viewerWidth]);
-      let zoomListener = window.d3
+      let element = d3.select("#" + elem_id);
+      let tree = d3.tree().size([viewerHeight, viewerWidth]);
+      let zoomListener = d3
         .zoom()
         .scaleExtent([0.1, 3])
         .on("zoom", zoom);
@@ -116,7 +120,7 @@ window.angular.module("app.FileExplorer").controller("InspectorCtrl", [
           .duration(animation_duration)
           .call(
             zoomListener.transform,
-            window.d3.zoomIdentity.translate(x, y).scale(scale)
+            d3.zoomIdentity.translate(x, y).scale(scale)
           );
       };
       element.select("svg").remove();
@@ -128,9 +132,7 @@ window.angular.module("app.FileExplorer").controller("InspectorCtrl", [
         .call(zoomListener);
       baseSvg.on("dblclick.zoom", null);
 
-      let centerrootbtn = window.d3.select(
-        "#spinalinspect_btn_centerroot_" + uid
-      );
+      let centerrootbtn = d3.select("#spinalinspect_btn_centerroot_" + uid);
       centerrootbtn.on("click", () => {
         if (!rootnode) return;
         centerNode(rootnode);
@@ -233,7 +235,7 @@ window.angular.module("app.FileExplorer").controller("InspectorCtrl", [
           .append("circle")
           .attr("class", "nodeCircle")
           .attr("r", 1e-6)
-          .on("contextmenu", window.d3.contextMenu(menu))
+          .on("contextmenu", d3ContextMenu(menu))
           .on("click", onNodeClick);
 
         nodeEnter
@@ -251,7 +253,7 @@ window.angular.module("app.FileExplorer").controller("InspectorCtrl", [
           })
           .attr("fill", "#EEE")
           .on("click", click_focus)
-          .on("contextmenu", window.d3.contextMenu(menu));
+          .on("contextmenu", d3ContextMenu(menu));
 
         var nodeUpdate = nodeEnter.merge(node);
         nodeUpdate
@@ -441,8 +443,8 @@ window.angular.module("app.FileExplorer").controller("InspectorCtrl", [
 
     function node_mousemove() {
       spinalInspectUID.tooltip
-        .style("left", window.d3.event.pageX + "px")
-        .style("top", window.d3.event.pageY + "px");
+        .style("left", d3.event.pageX + "px")
+        .style("top", d3.event.pageY + "px");
     }
 
     function node_mouseout() {
@@ -758,7 +760,7 @@ window.angular.module("app.FileExplorer").controller("InspectorCtrl", [
       textGrp = null;
       let res = {};
       toJson(model, res);
-      rootnode = window.d3.hierarchy(res, function(d) {
+      rootnode = d3.hierarchy(res, function(d) {
         return d.children;
       });
       if (draw) {

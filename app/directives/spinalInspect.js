@@ -1,4 +1,7 @@
-window.angular
+var angular = require("angular");
+var d3 = require("d3");
+var $ = require("jquery");
+angular
   .module("app.directives")
   .factory("spinalInspectUID", [
     function() {
@@ -17,7 +20,7 @@ window.angular
       };
 
       //tooltip ~~
-      facto.tooltip = window.d3
+      facto.tooltip = d3
         .select("body")
         .append("div")
         .attr("class", "inspect-tooltip")
@@ -34,7 +37,7 @@ window.angular
         link: function(s, e) {
           // scope, element, attribute
           let uid = spinalInspectUID.get_uid();
-          let elem = window.$(
+          let elem = $(
             '<div class="spinal-inspector-container" id="spinalinspect_' +
               uid +
               '"></div><div class="spinal-inspect-btn-grp"><button class="btn btn-primary fa fa-bullseye" id="spinalinspect_btn_centerroot_' +
@@ -42,7 +45,7 @@ window.angular
               '"></button></div>'
           );
           spinalInspectUID.elem[uid] = elem;
-          window.$(e).append(elem);
+          $(e).append(elem);
         }
       };
       return directive;

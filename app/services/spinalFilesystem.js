@@ -1,4 +1,6 @@
-window.angular.module("app.spinalcom").service("spinalFileSystem", [
+var angular = require("angular");
+
+angular.module("app.spinalcom").service("spinalFileSystem", [
   "$q",
   "spinalModelDictionary",
   "$rootScope",
@@ -401,22 +403,27 @@ window.angular.module("app.spinalcom").service("spinalFileSystem", [
           _server_id: model._server_id,
           owner: scope.user.username
         };
-        window.SpinalDrive_App._getOrCreate_log(model).then(logs => {
-          if (logs.length === 0) {
-            let tab = {
-              date: Date.now(),
-              name: scope.user.username,
-              action: "1st visit"
-            };
-            window.SpinalDrive_App._pushLog(logs, tab);
+        window.SpinalDrive_App._getOrCreate_log(model).then(
+          logs => {
+            if (logs.length === 0) {
+              let tab = {
+                date: Date.now(),
+                name: scope.user.username,
+                action: "1st visit"
+              };
+              window.SpinalDrive_App._pushLog(logs, tab);
+            }
+
+            item.created_at = logs[0].date;
+            item.log = logs;
+
+            this.handle_FE_progressBar(model, item);
+            deferred.resolve(item);
+          },
+          () => {
+            wait_tmp_serverid_loop(scope, deferred, model);
           }
-
-          item.created_at = logs[0].date;
-          item.log = logs;
-
-          this.handle_FE_progressBar(model, item);
-          deferred.resolve(item);
-        });
+        );
       }
     };
     let create_file_explorer_obj = (scope, model) => {

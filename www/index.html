@@ -51,13 +51,18 @@
     </md-sidenav>
   </div>
 
-  <script src="../lib/spinalcore.browser.js"></script>
+  <!-- <script src="../lib/spinalcore.browser.js"></script> -->
   <script type="text/javascript"
           src="js/lib.compile.min.js"></script>
+  <!-- <script type="text/javascript"
+          src="assets/lib/svg-morpheus.js"></script> -->
   <script type="text/javascript"
-          src="assets/lib/svg-morpheus.js"></script>
-  <script src="js/app.compile.min.js"></script>
-  <script src="../lib/spinal-lib-admin-env.js"></script>
+          src="js/app.compile.min.js"></script>
+  <script type="text/javascript"
+          src="../lib/spinal-lib-admin-env.js"></script>
+  <script>
+    FileSystem.CONNECTOR_TYPE = "Browser";
+  </script>
 </body>
 
 </html>

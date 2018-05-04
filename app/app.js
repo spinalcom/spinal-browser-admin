@@ -1,11 +1,13 @@
-window.angular.module("app.route", ["ngRoute"]);
-window.angular.module("app.services", []);
-window.angular.module("app.directives", []);
-window.angular.module("app.controllers", []);
-window.angular.module("app.spinalcom", ["settings", "ngMaterial"]);
-window.angular.module("app.spinal-panel", []);
+var angular = require("angular");
 
-window.angular
+angular.module("app.route", ["ngRoute"]);
+angular.module("app.services", []);
+angular.module("app.directives", []);
+angular.module("app.controllers", []);
+angular.module("app.spinalcom", ["settings", "ngMaterial"]);
+angular.module("app.spinal-panel", []);
+
+angular
   .module("SpinalApp", [
     "ngAnimate",
     "ngMaterial",

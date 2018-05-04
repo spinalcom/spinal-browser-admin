@@ -1,4 +1,5 @@
-window.angular.module("app.controllers").controller("loginCtrl", [
+var angular = require("angular");
+angular.module("app.controllers").controller("loginCtrl", [
   "$scope",
   "authService",
   "$mdToast",

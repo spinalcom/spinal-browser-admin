@@ -200,12 +200,17 @@ md-progress-linear.md-altTheme-theme.md-warn .md-bar {
   margin-bottom: 1px;
 }
 
+md-menu-content {
+  background-color: rgb(255, 255, 255);
+}
+
 md-menu-item.md-indent > ng-md-icon {
   position: absolute;
   padding: 0;
   width: 24px;
   top: 4px;
   left: 24px;
+  color: #333;
 }
 
 md-menu-item.md-indent > md-button,

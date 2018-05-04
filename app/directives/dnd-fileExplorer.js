@@ -1,4 +1,5 @@
-window.angular
+var angular = require("angular");
+angular
   .module("app.directives")
   .directive("dragDrop", function() {
     return {

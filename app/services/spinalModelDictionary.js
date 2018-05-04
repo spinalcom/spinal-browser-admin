@@ -1,4 +1,6 @@
-window.angular.module("app.spinalcom").factory("spinalModelDictionary", [
+var angular = require("angular");
+
+angular.module("app.spinalcom").factory("spinalModelDictionary", [
   "$q",
   "ngSpinalCore",
   "config",

@@ -9,8 +9,10 @@
  * Copyright 2015 SpinalCom - www.spinalcom.com
  *
  */
+var angular = require("angular");
+var $ = require("jquery");
+var ngJSTree = angular.module("jsTree.directive", []);
 
-var ngJSTree = window.angular.module("jsTree.directive", []);
 ngJSTree.directive("jsTree", [
   "$http",
   function($http) {
@@ -126,13 +128,13 @@ ngJSTree.directive("jsTree", [
       },
       link: function(s, e, a) {
         // scope, element, attribute \O/
-        window.$(function() {
+        $(function() {
           var config = {};
 
           // users can define 'core'
           config.core = {};
           if (a.treeCore) {
-            config.core = window.$.extend(config.core, s[a.treeCore]);
+            config.core = $.extend(config.core, s[a.treeCore]);
           }
 
           // clean Case
@@ -155,7 +157,7 @@ ngJSTree.directive("jsTree", [
               function(n) {
                 if (n) {
                   config.core.data = s[a.treeModel];
-                  window.$(e).jstree("destroy");
+                  $(e).jstree("destroy");
                   treeDir.init(s, e, a, config);
                 }
               },
@@ -180,7 +182,7 @@ ngJSTree.directive("jsTree", [
       },
       init: function(s, e, a, config) {
         treeDir.managePlugins(s, e, a, config);
-        tree = window.$(e).jstree(config);
+        tree = $(e).jstree(config);
         treeDir.manageEvents(s, e, a);
         treeDir.manageBinds(s, e, a);
       }

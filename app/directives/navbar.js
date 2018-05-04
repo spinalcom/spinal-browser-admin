@@ -1,3 +1,6 @@
+var angular = require("angular");
+var $ = require("jquery");
+
 compareTo.$inject = [];
 
 function compareTo() {
@@ -16,7 +19,7 @@ function compareTo() {
     }
   };
 }
-window.angular
+angular
   .module("app.directives")
   .directive("navbar", [
     function() {
@@ -53,12 +56,12 @@ window.angular
                   if (!layout.shown) {
                     layout.shown = true;
                     goldenLayoutService.createDragSource(
-                      window.$("#" + layout.id)[0],
+                      $("#" + layout.id)[0],
                       layout.cfg
                     );
-                    window
-                      .$("#" + layout.id)
-                      .click(create_callback(goldenLayoutService, layout));
+                    $("#" + layout.id).click(
+                      create_callback(goldenLayoutService, layout)
+                    );
                   }
                 }
               }, 200);
@@ -92,8 +95,8 @@ window.angular
         "$q",
         "$window",
         function($q, $window) {
-          var body = window.angular.element($window.document.body);
-          var textarea = window.angular.element("<textarea/>");
+          var body = angular.element($window.document.body);
+          var textarea = angular.element("<textarea/>");
           textarea.css({
             position: "fixed",
             opacity: "0"

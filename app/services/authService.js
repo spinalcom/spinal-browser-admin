@@ -1,4 +1,6 @@
-window.angular.module("app.spinalcom").factory("authService", [
+var angular = require("angular");
+
+angular.module("app.spinalcom").factory("authService", [
   "$q",
   "ngSpinalCore",
   "config",

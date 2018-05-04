@@ -31,6 +31,25 @@ var package_path, node_modules_path, rootPath, b, notifier;
 var browserify = require("browserify");
 var exorcist = require("exorcist");
 
+const externalLibs = [
+  "spinal-core-connectorjs",
+  "angular",
+  "angular-aria",
+  "angular-animate",
+  "angular-material",
+  "angular-route",
+  "jquery",
+  "bootstrap",
+  "golden-layout",
+  "angular-material-icons",
+  "jstree",
+  "angular-material-data-table",
+  "jquery-ui",
+  "d3",
+  "d3-context-menu",
+  "spectrum-colorpicker"
+];
+
 program
   .version("1.0.0")
   .option("-w, --watcher", "Add watcher")
@@ -162,6 +181,12 @@ function compile_lib(config) {
       debug: true
     });
   }
+  externalLibs.forEach(element => {
+    if (typeof element === "string") {
+      b.external(element);
+    } else b.external(element.name);
+  });
+
   bundle();
 }
 
