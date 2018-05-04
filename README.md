@@ -2,10 +2,7 @@
 
 ## Dependencies
 
-### Pull SpinalHub:v3.0.0 doker image
-```
-$ docker pull spinalcom/spinalhub:v3.0.0
-```
+
 ### Install [pm2](https://github.com/Unitech/pm2) globally
 ```
 $ npm install pm2 -g
@@ -24,8 +21,8 @@ $ npm init
 
 This will install the package
   - [spinal-browser-admin](https://github.com/spinalcom/spinal-browser-admin)
-    - [spinal-core-hub#3.0.0](https://github.com/spinalcom/spinal-core-hub)
-    - [spinal-core-connectorjs#2.3.0](https://github.com/spinalcom/spinal-core-connectorjs)
+    - [spinal-core-hub](https://github.com/spinalcom/spinal-core-hub)
+    - [spinal-core-connectorjs](https://github.com/spinalcom/spinal-core-connectorjs)
 
 
 ```
