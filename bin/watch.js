@@ -23,7 +23,7 @@ bundle();
 
 function bundle() {
   console.log("bundle");
-  let output = fs.createWriteStream("www/js/app.compile.js");
+  let output = fs.createWriteStream("www/js/app.compile.min.js");
   b
     // .transform("browserify-css", {
     //   minify: true,
@@ -50,4 +50,4 @@ externalLibs.forEach(element => {
     });
 });
 
-bLibs.bundle().pipe(fs.createWriteStream("./www/js/lib.compile.js"));
+bLibs.bundle().pipe(fs.createWriteStream("./www/js/lib.compile.min.js"));
