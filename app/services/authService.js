@@ -37,15 +37,11 @@ angular.module("app.spinalcom").factory("authService", [
       $http.get(url + "?u=" + username + "&p=" + password).then(
         function(data) {
           var u = parseInt(data.data);
-          var i = 0;
+          // var i = 0;
           if (u == -1) {
             let msg = "Login Error: username / password pair not found.";
             // $mdToast.show(loginError_toast)
             deferred.reject(msg);
-            for (i = 0; i < wait_connectList.length; i++) {
-              wait_connectList[i].reject();
-            }
-            wait_connectList = [];
             return;
           }
           ngSpinalCore.connect(
@@ -62,19 +58,12 @@ angular.module("app.spinalcom").factory("authService", [
           factory.save_user(username, password);
           is_Connected = true;
           deferred.resolve();
-          for (i = 0; i < wait_connectList.length; i++) {
-            wait_connectList[i].resolve();
-          }
-          wait_connectList = [];
+          if (wait_connect_defer) wait_connect_defer.resolve();
         },
         function() {
           let msg = "Connection Error: Imposible to connect to the server.";
           // $mdToast.show(connectionError_toast)
           deferred.reject(msg);
-          for (var i = 0; i < wait_connectList.length; i++) {
-            wait_connectList[i].reject();
-          }
-          wait_connectList = [];
         }
       );
       return deferred.promise;
@@ -83,13 +72,15 @@ angular.module("app.spinalcom").factory("authService", [
     factory.is_Connected = () => {
       return is_Connected;
     };
-    let wait_connectList = [];
+    let wait_connect_defer = null;
     factory.wait_connect = () => {
-      let deferred = $q.defer();
+      if (wait_connect_defer) return wait_connect_defer.promise;
+      wait_connect_defer = $q.defer();
       if (is_Connected == true) {
-        deferred.resolve();
-      } else wait_connectList.push(deferred);
-      return deferred.promise;
+        wait_connect_defer.resolve();
+      }
+      // else wait_connectList.push(deferred);
+      return wait_connect_defer.promise;
     };
 
     return factory;

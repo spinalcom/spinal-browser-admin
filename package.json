@@ -1,6 +1,6 @@
 {
   "name": "spinal-browser-admin",
-  "version": "v1.2.2",
+  "version": "v1.2.3",
   "homepage": "https://github.com/spinalcom/spinal-browser-admin",
   "authors": ["laurent <htd.laurent@gmail.com>"],
   "bin": {
@@ -20,13 +20,10 @@
     "browserify": "^14.5.0",
     "commander": "^2.13.0",
     "exorcist": "^1.0.0",
-    "spinal-core-connectorjs":
-      "git+https://github.com/spinalcom/spinal-core-connectorjs.git",
+    "spinal-core-connectorjs": "git+https://github.com/spinalcom/spinal-core-connectorjs.git",
     "spinal-core-hub": "git+https://github.com/spinalcom/spinal-core-hub.git",
-    "spinal-core-system":
-      "git+https://github.com/spinalcom/spinal-core-system.git",
-    "spinal-lib-admin-env":
-      "git+https://github.com/spinalcom/spinal-lib-admin-env.git",
+    "spinal-core-system": "git+https://github.com/spinalcom/spinal-core-system.git",
+    "spinal-lib-admin-env": "git+https://github.com/spinalcom/spinal-lib-admin-env.git",
     "uglifyify": "^4.0.5",
     "windowify": "^0.3.0"
   },
