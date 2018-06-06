@@ -1,6 +1,6 @@
 {
   "name": "spinal-browser-admin",
-  "version": "v1.2.3",
+  "version": "v1.2.4",
   "homepage": "https://github.com/spinalcom/spinal-browser-admin",
   "authors": ["laurent <htd.laurent@gmail.com>"],
   "bin": {
