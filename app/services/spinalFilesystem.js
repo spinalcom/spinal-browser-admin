@@ -401,7 +401,8 @@ angular.module("app.spinalcom").service("spinalFileSystem", [
           name: model.name.get(),
           model_type: model._info.model_type.get(),
           _server_id: model._server_id,
-          owner: scope.user.username
+          owner: scope.user.username,
+          visa : model._info.visaValidation ? model._info.visaValidation.isValid.get() : -1
         };
         window.SpinalDrive_App._getOrCreate_log(model).then(
           logs => {

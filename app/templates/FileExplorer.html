@@ -56,6 +56,10 @@
           <th md-column>Created at</th>
           <th md-column
               style="padding: 0;">Last Modified</th>
+
+          <th md-column 
+              style="width: 30px;text-align: center">Visa</th>
+
           <th md-column
               style="width: 45px;"></th>
         </tr>
@@ -97,6 +101,9 @@
           <td md-cell>{{getTime(file.created_at)}}</td>
           <td md-cell
               style="padding: 0;">{{getTime(file.log[file.log.length -1].date)}}</td>
+          
+          <td md-cell>{{ file.visa >= 0 ? file.visa + "%" : "-" }}</td>
+          
           <td>
             <md-menu>
               <md-button aria-label="+"
