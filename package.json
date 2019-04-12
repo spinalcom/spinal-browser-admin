@@ -23,7 +23,7 @@
     "spinal-core-connectorjs": "git+https://github.com/spinalcom/spinal-core-connectorjs.git",
     "spinal-core-hub": "git+https://github.com/spinalcom/spinal-core-hub.git",
     "spinal-core-system": "git+https://github.com/spinalcom/spinal-core-system.git",
-    "spinal-lib-admin-env": "git+https://github.com/spinalcom/spinal-lib-admin-env.git",
+    "spinal-lib-admin-env": "git+https://github.com/spinalcom/spinal-lib-admin-env.git#right-2.0",
     "uglifyify": "^4.0.5",
     "windowify": "^0.3.0"
   },
