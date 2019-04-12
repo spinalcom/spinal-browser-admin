@@ -460,17 +460,20 @@ angular
           $("#fe-menu-" + $scope.uid + "-" + index).click();
         });
       };
-
+  
       $scope.open_context_menu_file = ($mdMenu, ev, file) => {
-        $scope.context_menu_file = window.spinalDrive_Env.get_applications(
+        window.spinalDrive_Env.get_applications(
           "FileExplorer",
           {
             file: file,
             scope: $scope
           }
-        );
+        ).then((res) => {
+          $scope.context_menu_file = res;
+        });
         $mdMenu.open(ev);
       };
+      
       $scope.context_menu_file_action = ($event, item, file) => {
         item.launch_action({
           evt: $event,
@@ -481,17 +484,20 @@ angular
       };
 
       $scope.context_menu_curr_dir = [];
-
+  
       $scope.open_context_menu_curr_dir = ($mdMenu, ev) => {
-        $scope.context_menu_curr_dir = window.spinalDrive_Env.get_applications(
+        window.spinalDrive_Env.get_applications(
           "FileExplorerCurrDir",
           {
             scope: $scope,
             model: $scope.curr_dir
           }
-        );
+        ).then(res => {
+          $scope.context_menu_curr_dir = res;
+        });
         $mdMenu.open(ev);
       };
+      
       $scope.context_menu_curr_dir_action = ($event, item) => {
         item.launch_action({
           evt: $event,

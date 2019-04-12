@@ -84,34 +84,34 @@ angular
         }
         return true;
       };
-
-      $scope.contextMenu = node => {
-        let apps = window.spinalDrive_Env.get_applications(
+  
+      $scope.contextMenu = (node, buidlcontextMenu) => {
+        return window.spinalDrive_Env.get_applications(
           "FolderExplorer",
           node
-        );
-        let create_action_callback = (node, app) => {
-          return function() {
-            let share_obj = {
-              node: node,
-              model_server_id: node.original.model,
-              scope: $scope
+        ).then(apps => {
+          let create_action_callback = (node, app) => {
+            return function() {
+              let share_obj = {
+                node: node,
+                model_server_id: node.original.model,
+                scope: $scope
+              };
+              app.action(share_obj);
             };
-            app.action(share_obj);
           };
-        };
-        let res = {};
-        for (var i = 0; i < apps.length; i++) {
-          let app = apps[i];
-          res[app.name] = {
-            label: app.label,
-            icon: app.icon,
-            action: create_action_callback(node, app)
-          };
-        }
-        return res;
+          let res = {};
+          for (var i = 0; i < apps.length; i++) {
+            let app = apps[i];
+            res[app.name] = {
+              label: app.label,
+              icon: app.icon,
+              action: create_action_callback(node, app)
+            };
+          }
+          return buidlcontextMenu(res);
+        });
       };
-
       $scope.treeCore = {
         themes: {
           name: "default-dark"

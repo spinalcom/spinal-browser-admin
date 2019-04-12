@@ -75,9 +75,9 @@ ngJSTree.directive("jsTree", [
                   return s.$eval(a.treeContextmenuaction)(e);
                 };
               } else {
-                config.contextmenu.items = function(node) {
+                config.contextmenu.items = function(node, buildContextMenu) {
                   if (typeof s[a.treeContextmenu] == "function")
-                    return s[a.treeContextmenu](node);
+                    return s[a.treeContextmenu](node, buildContextMenu);
                   return s[a.treeContextmenu];
                 };
               }
