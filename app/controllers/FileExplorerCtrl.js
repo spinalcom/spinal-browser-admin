@@ -470,8 +470,9 @@ angular
           }
         ).then((res) => {
           $scope.context_menu_file = res;
+          $mdMenu.open(ev);
         });
-        $mdMenu.open(ev);
+        
       };
       
       $scope.context_menu_file_action = ($event, item, file) => {
@@ -494,8 +495,9 @@ angular
           }
         ).then(res => {
           $scope.context_menu_curr_dir = res;
+          $mdMenu.open(ev);
         });
-        $mdMenu.open(ev);
+        
       };
       
       $scope.context_menu_curr_dir_action = ($event, item) => {
