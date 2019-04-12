@@ -27,13 +27,15 @@
         </md-button>
         <md-menu-content width="4"
                          style="background-color: #FFF;">
-          <md-menu-item ng-repeat="item in context_menu_curr_dir"
+          <div ng-if="context_menu_file.length <= 0"> Nothing here</div>
+          <md-menu-item ng-if="context_menu_file.length >0"
+                        ng-repeat="item in context_menu_file"
                         class="md-indent md-dense compact"
                         style="position: relative;">
             <ng-md-icon icon="{{item.icon}}"
                         style="fill: rgba(0,0,0,0.54);height: 20px;"
                         class="md-avatar-icon"></ng-md-icon>
-            <md-button ng-click="context_menu_curr_dir_action($event, item, file);"
+            <md-button ng-click="context_menu_file_action($event, item, file);"
                        style="color:#000">
               {{item.label}}
             </md-button>
@@ -115,7 +117,9 @@
               </md-button>
               <md-menu-content width="4"
                                style="background-color: #FFF;">
-                <md-menu-item ng-repeat="item in context_menu_file"
+                <div ng-if="context_menu_file.length <= 0"> Nothing here</div>
+                <md-menu-item ng-if="context_menu_file.length >0"
+                              ng-repeat="item in context_menu_file"
                               class="md-indent md-dense compact"
                               style="position: relative;">
                   <ng-md-icon icon="{{item.icon}}"
