@@ -2,149 +2,159 @@ var angular = require("angular");
 var $ = require("jquery");
 
 angular
-  .module("app.sidebar", ["jsTree.directive", "app.services", "app.spinalcom"])
+  .module("app.sidebar", [
+    // "jsTree.directive",
+    "app.services", "app.spinalcom"])
   .controller("sideBarCtrl", [
     "$scope",
-    "$rootScope",
     "spinalFileSystem",
     "$mdDialog",
     "$injector",
-    function($scope, $rootScope, spinalFileSystem, $mdDialog, $injector) {
+    "spinalFolderExplorerService",
+    function(
+      $scope,
+      spinalFileSystem,
+      $mdDialog,
+      $injector,
+      spinalFolderExplorerService
+    ) {
       $scope.injector = $injector;
-      $scope.fsdir = [];
-      $scope.all_dir = {};
-      $scope.selected_node = 0;
-      // var newFolder_prompt = $mdDialog
-      //   .prompt()
-      //   .title("Input the name of the new folder")
-      //   .placeholder("Folder Name")
-      //   .initialValue("New Folder")
-      //   .required(true)
-      //   .ok("Ok")
-      //   .cancel("Cancel");
+      const UID = spinalFolderExplorerService.get_uid();
+      $scope.jsTreeId = `spinal-js-tree-${UID}`;
+      let unregisterWatcherFct;
+      setTimeout(() => {
+        $scope.$apply();
+        const res = spinalFolderExplorerService.registerWatcher(
+          UID,
+          onChangeModel
+        );
+        res.rootFilePromise.then(updateDirectory => {
+          mapData.set(updateDirectory.id, updateDirectory.children);
+          init();
+        });
+        unregisterWatcherFct = res.unregisterFct;
+      }, 100);
 
-      $scope.DnD_callback = (op, node, par, pos, more) => {
-        if (
-          ((op === "move_node" || op === "copy_node") &&
-            node.type &&
-            node.type == "root") ||
-          par.id == "#"
-        ) {
-          return false;
-        }
-
-        if (node.original.model == par.original.model) return false;
-
-        if ((op === "move_node" || op === "copy_node") && more && more.core) {
-          if (confirm("Are you sure you want to move the folder ?")) {
-            // UPDATE SPINALCORE MODELS HERE
-            let m_parent = window.FileSystem._objects[par.original.model];
-            let m_node;
-            let n_par =
-              spinalFileSystem.folderExplorer_dir[node.original.parent];
-            let n_parent = window.FileSystem._objects[n_par.model];
-            // let n;
-            for (var i = 0; i < n_parent.length; i++) {
-              if (n_parent[i]._ptr.data.value == node.original.model) {
-                m_node = n_parent[i];
-                break;
-              }
-            }
-
-            if (!m_parent || !m_node) return false;
-
-            if (m_parent != n_parent) {
-              let node_name = m_node.name.get();
-              let base_node_name = node_name;
-              let x = 0;
-              while (m_parent.has(node_name)) {
-                node_name = base_node_name + "(" + x + ")";
-                x++;
-              }
-              if (node_name != m_node.name.get()) m_node.name.set(node_name);
-            }
-            if (
-              op == "move_node" ||
-              (m_parent == n_parent && op == "copy_node")
-            ) {
-              for (i = 0; i < n_parent.length; i++) {
-                let f = n_parent[i];
-                if (f == m_node) {
-                  n_parent.splice(i, 1);
-                  if (i < pos) pos--;
-                  break;
-                }
-              }
-            }
-            // if ((m_parent == n_parent) && op == "copy_node") return false;
-            m_parent.insert(pos, [m_node]);
-            return true;
+      /**
+       * key = directoryId;
+       *
+       * fileDefObj : {
+       *   name : string,
+       *   id : number,
+       *   targetDirectoryId : number,
+       *   directoryParent : number
+       * }
+       *
+       *  @type Map<string, fileDefObj[]>
+       */
+      const mapData = new Map();
+      $scope.mapData = mapData;
+      let isInit = false;
+      const init = () => {
+        if (isInit === true) return;
+        isInit = true;
+        const jstreeElem = $(`#${$scope.jsTreeId}`);
+        jstreeElem.jstree({
+          core: {
+            themes: {
+              name: "default-dark",
+              responsive: true
+            },
+            check_callback: true,
+            data: getChildren
+          },
+          plugins: ["contextmenu"],
+          contextmenu: {
+            select_node: false,
+            items: getContextMenuItems
           }
-          return false;
-        }
-        return true;
+        });
+        jstreeElem.on("$destroy", unregisterWatcherFct);
+        jstreeElem.on("select_node.jstree", onSelectNode);
       };
-
-      $scope.contextMenu = node => {
+      function onSelectNode(e, data) {
+        spinalFolderExplorerService.selectNode(data.node);
+      }
+      function getContextMenuItems(node) {
         let apps = window.spinalDrive_Env.get_applications(
           "FolderExplorer",
           node
         );
-        let create_action_callback = (node, app) => {
-          return function() {
-            let share_obj = {
-              node: node,
-              model_server_id: node.original.model,
-              scope: $scope
-            };
-            app.action(share_obj);
-          };
-        };
         let res = {};
         for (var i = 0; i < apps.length; i++) {
           let app = apps[i];
+          let share_obj = {
+            node: node,
+            model_server_id: node.original.file,
+            scope: $scope
+          };
           res[app.name] = {
             label: app.label,
             icon: app.icon,
-            action: create_action_callback(node, app)
+            action: app.action.bind(app, share_obj)
           };
         }
         return res;
-      };
+      }
 
-      $scope.treeCore = {
-        themes: {
-          name: "default-dark"
-        },
-        check_callback: $scope.DnD_callback
-      };
-      let listener_destructor = spinalFileSystem.subcribe(
-        "SPINAL_FS_ONCHANGE",
-        () => {
-          spinalFileSystem.getFolderJson($scope.all_dir).then(res => {
-            $scope.fsdir = res.tree;
-            $scope.all_dir = res.all_dir;
-          });
+      function getChildren(node, cb) {
+        if (mapData.has(node.id) === true) {
+          cb(mapData.get(node.id));
+        } else {
+          spinalFolderExplorerService
+            .getChildren(node.id, node.parents, node.text)
+            .then(updateDirectory => {
+              mapData.set(updateDirectory.id, updateDirectory.children);
+              cb(updateDirectory.children);
+            });
         }
-      );
-      $scope.$on("$destroy", listener_destructor);
+      }
 
-      $scope.select_node = (e, data) => {
-        $scope.selected_node = data.node.original;
-        spinalFileSystem.select_node($scope.all_dir, data);
-      };
-      $scope.onChangeNodeTree = (e, data) => {
-        spinalFileSystem.onChangeNodeTree($scope.all_dir, data);
-      };
-      $scope.onbdlclick = event => {
-        var node = $(event.target).closest("li");
-        spinalFileSystem.onbdlclick($scope.all_dir, node[0].id);
-      };
+      function getArrayDiff(orig, to, comparator) {
+        const toAdd = to.filter(
+          x => orig.findIndex(el => comparator(el, x)) === -1
+        );
+        const { toRm, toUpdate } = orig.reduce(
+          (res, x) => {
+            const idx = to.findIndex(el => comparator(el, x));
+            if (idx >= 0) {
+              res.toUpdate.push([x, to[idx]]);
+            } else {
+              res.toRm.push(x);
+            }
+            return res;
+          },
+          { toRm: [], toUpdate: [] }
+        );
+        return {
+          toAdd,
+          toRm,
+          toUpdate
+        };
+      }
+      function onChangeModel(updateDirectory) {
+        if (mapData.has(updateDirectory.id) === false) return;
+        const dirChild = mapData.get(updateDirectory.id);
+        mapData.set(updateDirectory.id, updateDirectory.children);
 
-      spinalFileSystem.init();
-      spinalFileSystem.getFolderJson($scope.all_dir).then(res => {
-        $scope.fsdir = res.tree;
-        $scope.all_dir = res.all_dir;
-      });
+        const diff = getArrayDiff(
+          dirChild,
+          updateDirectory.children,
+          (a, b) => a.id === b.id
+        );
+        const treeContainer = $(`#${$scope.jsTreeId}`);
+        const tree = treeContainer.jstree(true);
+        if (diff.toRm.length > 0) {
+          tree.delete_node(diff.toRm.map(x => x.id));
+        }
+        for (const node of diff.toAdd) {
+          tree.create_node(updateDirectory.id, node);
+        }
+        for (const [orig, to] of diff.toUpdate) {
+          if (orig.text !== to.text) {
+            treeContainer.jstree("rename_node", to.id, to.text);
+          }
+        }
+      }
     }
   ]);

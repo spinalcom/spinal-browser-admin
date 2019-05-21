@@ -1,4 +1,5 @@
 var angular = require("angular");
+
 angular.module("app.controllers").controller("loginCtrl", [
   "$scope",
   "authService",
@@ -6,6 +7,7 @@ angular.module("app.controllers").controller("loginCtrl", [
   "$location",
   function($scope, authService, $mdToast, $location) {
     let toast = $mdToast.simple().hideDelay(3000);
+    // let user = authService.get_user();
     authService.logout();
     $scope.conf = {
       email: "",

@@ -306,6 +306,6 @@ md-toast.md-error-toast-theme div.md-toast-content {
   background-color: red !important;
 }
 
-.breadcrumb > .active {
-  color: #8fccff;
+.breadcrumb .breadcrumb-item .md-avatar-icon > svg{
+  margin-bottom: -5px;
 }

@@ -52,10 +52,11 @@ angular
         ]
       };
       function wait_template(element, state, count = 0) {
-        if (count > 50)
+        if (count > 50) {
           console.error(
             "Error: imposible to retrive the template : " + state.template
           );
+        }
         let template = $templateCache.get(state.template);
         if (template) {
           element.html(
@@ -78,6 +79,7 @@ angular
       factory.init = () => {
         if (myLayout == 0) {
           myLayout = new GoldenLayout(config, $("#g-layout"));
+          factory.myLayout = myLayout;
           myLayout.registerComponent("SpinalHome", function(container, state) {
             var element = container.getElement();
             if (state.template == "") {
