@@ -114,7 +114,6 @@ angular.module("app.spinalcom").service("spinalFileSystem", [
     };
 
     this.select_node = (node, path) => {
-      console.log("select_node");
       if (node.original.dirId === this.model._server_id) {
         this.curr_window.change_curr_dir(this.model, [
           {
@@ -129,8 +128,6 @@ angular.module("app.spinalcom").service("spinalFileSystem", [
             this.curr_window.change_curr_dir(
               directory,
               path.map(e => {
-                console.log(e);
-
                 if (e.dirId === this.model._server_id) {
                   return {
                     name: "root",

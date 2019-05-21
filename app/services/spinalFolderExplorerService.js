@@ -151,7 +151,6 @@ angular.module("app.spinalcom").factory("spinalFolderExplorerService", [
       if (typeof parentNode === "undefined") {
         throw new Error(`parentNode of ${id} not found. path = [${path}]`);
       }
-      console.log(parentNode);
       if (parentNode.dirId === rootDirectory._server_id) {
         return $q.resolve(createItemObjByDirectory(id, rootDirectory, path));
       } else {
@@ -231,8 +230,6 @@ angular.module("app.spinalcom").factory("spinalFolderExplorerService", [
           }
         })
         .filter(e => typeof e !== "undefined");
-      console.log("selectNode", node, nodePath);
-
       spinalFileSystem.select_node(node, nodePath);
     }
 
