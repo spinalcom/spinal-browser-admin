@@ -3,7 +3,7 @@ var $ = require("jquery");
 
 angular
   .module("app.FileExplorer", [
-    "jsTree.directive",
+    // "jsTree.directive",
     "app.services",
     "app.spinalcom",
     "ngMaterial",
@@ -58,9 +58,25 @@ angular
         }
       };
       $scope.getIcon = type => {
-        return window.spinalDrive_Env.context_file_exp_app_icon[type]
-          ? window.spinalDrive_Env.context_file_exp_app_icon[type]
-          : window.spinalDrive_Env.context_file_exp_app_icon.default;
+        try {
+          return window.spinalDrive_Env.context_file_exp_app_icon[type]
+            ? window.spinalDrive_Env.context_file_exp_app_icon[type]
+            : window.spinalDrive_Env.context_file_exp_app_icon.default;
+        } catch (e) {
+          return "insert_drive_file";
+        }
+      };
+      $scope.isBreadcrumbIconShown = dir => {
+        if (dir.name === "home" || !dir._server_id) return false;
+        const model = window.FileSystem._objects[dir._server_id];
+        if (
+          model._info &&
+          model._info.model_type &&
+          model._info.model_type.get() === "Synchronized Directory"
+        ) {
+          return true;
+        }
+        return false;
       };
 
       $scope.selectFile = (event, file) => {
@@ -75,7 +91,10 @@ angular
         file.selected = !file.selected;
       };
       $scope.ondblclick = file => {
-        if (file.model_type == "Directory") {
+        if (
+          file.model_type == "Directory" ||
+          file.model_type == "Synchronized Directory"
+        ) {
           let f = window.FileSystem._objects[file._server_id];
           if (f) {
             $scope.directory = [];
@@ -96,10 +115,15 @@ angular
         return `fill: ${file.error ? "#ff5722" : "white"}; height: 24px;`;
       };
       $scope.getTime = model => {
-        return new Date(model.get()).toLocaleString();
+        if (model) {
+          return new Date(model.get()).toLocaleString();
+        } else {
+          return "-";
+        }
       };
 
       $scope.change_curr_dir = (dir, path) => {
+        if (dir !== $scope.curr_dir) spinalFileSystem.currDirModified(dir, $scope.uid);
         $scope.curr_dir = dir;
         $scope.fs_path = path;
         handleDirectoryFiles();
@@ -117,7 +141,9 @@ angular
             if (find_idx_in_dir(res, i) == -1) {
               $scope.directory.splice(i, 1);
               i = 0;
-            } else i++;
+            } else {
+              i++;
+            }
           }
           let found = false;
           for (i = 0; i < res.length; i++) {
@@ -129,14 +155,16 @@ angular
                 $scope.directory[y].owner = res[i].owner;
                 $scope.directory[y].last_modified = res[i].last_modified;
                 $scope.directory[y].version = res[i].version;
-                $scope.directory[y].visa = res[i].visa;
-
-                if (res[i].upload_pecent)
+                if (res[i].upload_pecent) {
                   $scope.directory[y].upload_pecent = res[i].upload_pecent;
-                else $scope.directory[y].upload_pecent = res[i].upload_pecent;
-                if (res[i].error) $scope.directory[y].error = res[i].error;
-                else if ($scope.directory[y].error)
+                } else {
+                  $scope.directory[y].upload_pecent = res[i].upload_pecent;
+                }
+                if (res[i].error) {
+                  $scope.directory[y].error = res[i].error;
+                } else if ($scope.directory[y].error) {
                   $scope.directory[y].error = false;
+                }
                 found = true;
                 break;
               }
@@ -276,12 +304,19 @@ angular
               break;
             }
           }
-          if (!target || target.model_type != "Directory") return false;
+          if (
+            !target ||
+            target.model_type != "Directory" ||
+            target.model_type != "Synchronized Directory"
+          ) {
+            return false;
+          }
           let files = event.target.files;
-          if (!files || files.length === 0)
+          if (!files || files.length === 0) {
             files = event.dataTransfer
               ? event.dataTransfer.files
               : event.originalEvent.dataTransfer.files;
+          }
           if (files.length > 0) {
             // dnd files
             let m_tar = window.FileSystem._objects[target._server_id];
@@ -293,7 +328,13 @@ angular
 
             return false;
           }
-          if (!target || target.model_type != "Directory") return false;
+          if (
+            !target ||
+            target.model_type != "Directory" ||
+            target.model_type != "Synchronized Directory"
+          ) {
+            return false;
+          }
           let selected = spinalFileSystem.FE_selected_drag;
           let m_tar = window.FileSystem._objects[target._server_id];
           if (m_tar) {
@@ -339,7 +380,7 @@ angular
         if (files.length > 0) {
           for (var i = 0; i < files.length; i++) {
             let file = files[i];
-            let filePath = new window.Path(file);
+            let filePath = new window.spinalCore._def["Path"](file);
             $scope.get_unused_name(file.name, directory_target);
             directory_target.add_file(file.name, filePath);
           }
@@ -354,7 +395,9 @@ angular
           if (!idx) {
             idx = 0;
             name += "(" + idx + ")";
-          } else ++idx;
+          } else {
+            ++idx;
+          }
           let reg = /\(\d+\)$/gm;
           name = name.replace(reg, "(" + idx + ")");
           return $scope.get_unused_name(name, directory_target, idx);
@@ -367,10 +410,11 @@ angular
           event.stopPropagation(); // Stops some browsers from redirecting.
           event.preventDefault();
           var files = event.target.files;
-          if (!files || files.length === 0)
+          if (!files || files.length === 0) {
             files = event.dataTransfer
               ? event.dataTransfer.files
               : event.originalEvent.dataTransfer.files;
+          }
           if (files.length > 0) {
             // dnd files
             let m_tar = $scope.curr_dir;

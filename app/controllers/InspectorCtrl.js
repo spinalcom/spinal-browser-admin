@@ -109,12 +109,12 @@ angular.module("app.FileExplorer").controller("InspectorCtrl", [
         let x_limit = 120;
         while (x < x_limit) {
           x = -rootnode.y0;
-          x = x * scale + viewerWidth / 2;
-          x = x - (calc_dist_depth(depth, 6) / 2) * scale;
+          x = (x * scale) + (viewerWidth / 2);
+          x = x - ((calc_dist_depth(depth, 6) / 2) * scale);
           if (x < x_limit) scale -= 0.01;
         }
         x -= calc_dist_depth(d.depth, 6) * scale;
-        y = y * scale + viewerHeight / 2;
+        y = (y * scale) + (viewerHeight / 2);
         baseSvg
           .transition()
           .duration(animation_duration)
@@ -183,12 +183,12 @@ angular.module("app.FileExplorer").controller("InspectorCtrl", [
       draw = () => {
         baseSvg.attr("width", viewerWidth).attr("height", viewerHeight);
         if (textGrp)
-          textGrp
-            .attr("x", viewerWidth / 2)
-            .attr("y", viewerHeight / 2)
-            .text(
-              'Please Drop file from "File Explorer" here to inspect them.'
-            );
+        {textGrp
+          .attr("x", viewerWidth / 2)
+          .attr("y", viewerHeight / 2)
+          .text(
+            'Please Drop file from "File Explorer" here to inspect them.'
+          );}
         if (!rootnode) return;
         rootnode.x0 = viewerHeight / 2;
         rootnode.y0 = 0;
@@ -204,12 +204,12 @@ angular.module("app.FileExplorer").controller("InspectorCtrl", [
         let nodes = treemap.descendants();
         let links = treemap.descendants().slice(1);
         nodes.forEach(d => {
-          if (!depthLength[d.depth]) depthLength[d.depth] = d.data.name.length;
+          if (!depthLength[d.depth]) {depthLength[d.depth] = d.data.name.length;}
           else
-            depthLength[d.depth] = Math.max(
-              d.data.name.length,
-              depthLength[d.depth]
-            );
+          {depthLength[d.depth] = Math.max(
+            d.data.name.length,
+            depthLength[d.depth]
+          );}
         });
         nodes.forEach(d => {
           d.y = calc_dist_depth(d.depth, 6);
@@ -274,27 +274,27 @@ angular.module("app.FileExplorer").controller("InspectorCtrl", [
                 return style.nodefill.objClosed;
               }
               if (d.children && d.children.length > 0)
-                return style.nodefill.objEmptyOrOpen;
+              {return style.nodefill.objEmptyOrOpen;}
               if (!(d.children || d._children))
-                return style.nodefill.objEmptyOrOpen;
+              {return style.nodefill.objEmptyOrOpen;}
               return style.nodefill.objClosed;
             } else if (d.data.lst) {
               if (d.data.haveChild && !(d.children || d._children)) {
                 return style.nodefill.lstClosed;
               }
               if (d.children && d.children.length > 0)
-                return style.nodefill.lstEmptyOrOpen;
+              {return style.nodefill.lstEmptyOrOpen;}
               if (!(d.children || d._children))
-                return style.nodefill.lstEmptyOrOpen;
+              {return style.nodefill.lstEmptyOrOpen;}
               return style.nodefill.lstClosed;
             } else if (d.data.ptr) {
               if (d.data.haveChild && !(d.children || d._children)) {
                 return style.nodefill.ptrClosed;
               }
               if (d.children && d.children.length > 0)
-                return style.nodefill.ptrEmptyOrOpen;
+              {return style.nodefill.ptrEmptyOrOpen;}
               if (!(d.children || d._children))
-                return style.nodefill.ptrEmptyOrOpen;
+              {return style.nodefill.ptrEmptyOrOpen;}
               return style.nodefill.ptrClosed;
             }
             return style.nodefill.empty; // default
@@ -416,7 +416,7 @@ angular.module("app.FileExplorer").controller("InspectorCtrl", [
         for (var i = 0; i < apps.length; i++) {
           let app = apps[i];
           if (app.action_mouseover && app.action_mouseover instanceof Function)
-            app.action_mouseover(d, m, add_table_row, table);
+          {app.action_mouseover(d, m, add_table_row, table);}
         }
         if (m instanceof window.Lst) {
           add_table_row(table, "Length", m.length);
@@ -513,7 +513,7 @@ angular.module("app.FileExplorer").controller("InspectorCtrl", [
           n.data.lst = true;
           if (m.length === 0) {
             n.data.haveChild = false;
-          } else n.data.haveChild = true;
+          } else {n.data.haveChild = true;}
           let children = n.children || n._children;
           if (!children) {
             // children not loaded yet
@@ -558,7 +558,7 @@ angular.module("app.FileExplorer").controller("InspectorCtrl", [
             }
           }
           if (m.length < children.length)
-            children.splice(m.length, children.length - m.length);
+          {children.splice(m.length, children.length - m.length);}
           if (children.length === 0) {
             n.children = n._children = n.data.children = n.data._children = null;
           }
@@ -570,7 +570,7 @@ angular.module("app.FileExplorer").controller("InspectorCtrl", [
           let children = n.children || n._children;
           if (m._attribute_names.length === 0) {
             n.data.haveChild = false;
-          } else n.data.haveChild = true;
+          } else {n.data.haveChild = true;}
           if (!children) {
             return; // children not loaded yet
           }

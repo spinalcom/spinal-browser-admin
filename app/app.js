@@ -13,7 +13,6 @@ angular
     "ngMaterial",
     "app.directives",
     "app.route",
-    "jsTree.directive",
     "app.sidebar",
     "app.FileExplorer",
     "app.services",

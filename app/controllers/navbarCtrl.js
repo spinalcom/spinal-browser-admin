@@ -83,10 +83,6 @@ angular
           });
       };
 
-      //   {
-      //   name: "Delete account",
-      //   action: $scope.disconnect
-      // },
       $scope.menuList = [
         {
           name: "Change Password",
@@ -117,7 +113,6 @@ angular
       $scope.logout = () => {
         $location.path("/login");
       };
-
       $scope.clickUser = () => {
         $mdSidenav("right").open();
       };
@@ -159,10 +154,10 @@ angular
 
         {
           id: "drag-inspector",
-          name: "Inspector",
+          name: "DB Inspector",
           cfg: {
             isClosable: true,
-            title: "Inspector",
+            title: "DB Inspector",
             type: "component",
             componentName: "SpinalHome",
             componentState: {
@@ -178,7 +173,6 @@ angular
       }
     }
   ]);
-
 var changePasswordModelCtrl = function(
   $scope,
   authService,
