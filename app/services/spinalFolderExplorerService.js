@@ -70,7 +70,7 @@ angular.module("app.spinalcom").factory("spinalFolderExplorerService", [
         id: parentFileId.toString(),
         children: []
       };
-
+      bindPathDirectory(directoryModel, path);
       for (let idx = 0; idx < directoryModel.length; idx++) {
         const file = directoryModel[idx];
         if (
@@ -81,7 +81,6 @@ angular.module("app.spinalcom").factory("spinalFolderExplorerService", [
             file._info.model_type.get() === "Synchronized Directory")
         ) {
           const childPath = [path, itemUID].join("/");
-          bindPathDirectory(directoryModel, path);
           res.children.push(
             createItem(
               childPath,
