@@ -42,6 +42,12 @@ externalLibs.forEach(element => {
 });
 
 bLibs
+  .transform("uglifyify", {
+    global: true,
+    mangle: {
+      keep_fnames: true
+    }
+  })
   .bundle()
   .pipe(exorcist("www/js/lib.compile.min.js.map"))
   .pipe(fs.createWriteStream("www/js/lib.compile.min.js"));
