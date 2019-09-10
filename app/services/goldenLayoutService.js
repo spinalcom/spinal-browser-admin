@@ -51,6 +51,7 @@ angular
           }
         ]
       };
+      const promiseServiceRdy = $q.defer();
       function wait_template(element, state, count = 0) {
         if (count > 50) {
           console.error(
@@ -94,16 +95,12 @@ angular
           angular.element($window).bind("resize", function() {
             myLayout.updateSize();
           });
-          $rootScope.$emit("GoldenLayout_READY");
+          promiseServiceRdy.resolve();
         }
       };
 
       factory.wait_ready = () => {
-        return $q(function(resolve) {
-          $rootScope.$on("GoldenLayout_READY", () => {
-            resolve();
-          });
-        });
+        return promiseServiceRdy.promise;
       };
 
       factory.createChild = config => {

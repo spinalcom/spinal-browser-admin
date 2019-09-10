@@ -82,7 +82,6 @@ angular
             );
           });
       };
-
       $scope.menuList = [
         {
           name: "Change Password",
